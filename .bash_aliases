@@ -1,5 +1,6 @@
 #!/bin/sh
 #my custom aliases
+alias ll='ls -la'
 alias evince='evince -f'
 alias note='qn notes general'
 alias notecat='cat ~/workspace/projects/notes/general'
