@@ -1,0 +1,20 @@
+#!/bin/sh
+
+mkdir $1
+cd $1
+
+echo "TEXFILES := \$(wildcard *.tex) 
+
+all: $1.pdf
+
+$1.pdf: \$(TEXFILES)
+	pdflatex $1
+	bibtex $1
+	pdflatex $1
+	pdflatex $1
+
+clean:
+	rm -f *.aux *.bbl *.blg *.lof *.lot *.toc $1.synctex.gz
+
+" >> Makefile
+

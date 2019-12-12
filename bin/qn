@@ -1,0 +1,10 @@
+#!/bin/sh
+
+MY_PATH=~/workspace/projects/$1/$2
+# consume the first arguments
+shift
+shift
+
+# append all remaining arguments
+echo "\t$@\n" >> $MY_PATH
+

@@ -1,0 +1,20 @@
+#!/bin/sh
+
+# start pdf-viewer window
+# evince &
+
+DIR='/home/tomes/runenv/latex/'
+
+#cd $DIR
+
+#if [ -d $1 ]; then
+#	DIR='$DIR$1/'
+#fi
+
+# start shell window
+xfce4-terminal --working-directory=$DIR$1 --geometry='75x55+2+30' --hide-scrollbar --hide-borders &
+
+# start vim window
+xfce4-terminal --working-directory=$DIR$1 --geometry='116x55-2+30' --hide-borders --hide-scrollbar &
+
+
