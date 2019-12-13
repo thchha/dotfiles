@@ -22,3 +22,6 @@
 [submodule "nvim/.local/share/nvim/site/pack/git-plugins/start/gitgutter.vim"]
 	path = nvim/.local/share/nvim/site/pack/git-plugins/start/gitgutter.vim
 	url = https://github.com/airblade/vim-gitgutter.git 
+[submodule "nvim/.local/share/nvim/site/pack/git-plugins/start/kotlin.vim"]
+	path = nvim/.local/share/nvim/site/pack/git-plugins/start/kotlin.vim
+	url = https://github.com/udalov/kotlin-vim.git
