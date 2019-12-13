@@ -13,8 +13,8 @@
 [submodule "nvim/.local/share/nvim/site/pack/git-plugins/start/nerdtree-git-plugin.vim"]
 	path = nvim/.local/share/nvim/site/pack/git-plugins/start/nerdtree-git-plugin.vim
 	url = https://github.com/Xuyuanp/nerdtree-git-plugin.git 
-[submodule "nvim/.local/share/nvim/site/pack/git-plugins/start/vim-mulitple-cursors.vim"]
-	path = nvim/.local/share/nvim/site/pack/git-plugins/start/vim-mulitple-cursors.vim
+[submodule "nvim/.local/share/nvim/site/pack/git-plugins/start/vim-multiple-cursors"]
+	path = nvim/.local/share/nvim/site/pack/git-plugins/start/vim-multiple-cursors
 	url = https://github.com/terryma/vim-multiple-cursors.git
 [submodule "nvim/.local/share/nvim/site/pack/git-plugins/start/vim-smooth-scroll.vim"]
 	path = nvim/.local/share/nvim/site/pack/git-plugins/start/vim-smooth-scroll.vim
