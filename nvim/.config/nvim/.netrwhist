@@ -1,4 +1,5 @@
 let g:netrw_dirhistmax  =10
-let g:netrw_dirhist_cnt =2
-let g:netrw_dirhist_1='/home/thomas/workspace'
-let g:netrw_dirhist_2='/home/thomas/workspace/eclipse/group7'
+let g:netrw_dirhist_cnt =3
+let g:netrw_dirhist_1='/home/tomes/workspace/eclipse/pks/group7/Assignment2/src/main/java/de/uniba/wiai/dsg/pks/assignment2/histogram/threaded'
+let g:netrw_dirhist_2='/home/tomes/workspace/eclipse/pks/group7/Assignment2/src/main/java/de/uniba/wiai/dsg/pks/assignment2/histogram/sequential'
+let g:netrw_dirhist_3='/home/tomes'
