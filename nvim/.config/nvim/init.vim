@@ -119,4 +119,15 @@ noremap <silent> <PageUp> :call smooth_scroll#up(&scroll*2, 2, 1)<CR>
 noremap <silent> <PageDown> :call smooth_scroll#down(&scroll*2, 2, 1)<CR>
 nmap <c-q> :q<CR>
 
-
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" 			for colortemplat generation -> identify type of text
+"
+" function! SynStack()
+"     if !exists('*synstack')
+"         return
+"     endif
+"     echo map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")')
+" endfunction
+" nnoremap ? :call SynStack()<CR>
+"
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
