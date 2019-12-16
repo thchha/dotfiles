@@ -28,3 +28,6 @@
 [submodule "nvim/.local/share/nvim/site/pack/git-plugins/start/colortemplate.vim"]
 	path = nvim/.local/share/nvim/site/pack/git-plugins/start/colortemplate.vim
 	url = https://github.com/lifepillar/vim-colortemplate.git
+[submodule "nvim/.local/share/nvim/site/pack/git-plugins/start/dirvish.vim"]
+	path = nvim/.local/share/nvim/site/pack/git-plugins/start/dirvish.vim
+	url = https://github.com/justinmk/vim-dirvish.git
