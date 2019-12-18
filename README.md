@@ -15,6 +15,7 @@ stow -t /root root
 ```
 
 #bash specifics
-Debian | ArchLinux |
-.profile | .bash_profile |
+
+| Debian | ArchLinux |
+|.profile | .bash_profile |
 
