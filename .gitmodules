@@ -31,3 +31,12 @@
 [submodule "nvim/.local/share/nvim/site/pack/git-plugins/start/dirvish.vim"]
 	path = nvim/.local/share/nvim/site/pack/git-plugins/start/dirvish.vim
 	url = https://github.com/justinmk/vim-dirvish.git
+[submodule "nvim/.local/share/nvim/site/pack/git-plugins/start/vim-startify"]
+	path = nvim/.local/share/nvim/site/pack/git-plugins/start/vim-startify
+	url = https://github.com/mhinz/vim-startify.git
+[submodule "nvim/.local/share/nvim/site/pack/git-plugins/start/vim-which-key"]
+	path = nvim/.local/share/nvim/site/pack/git-plugins/start/vim-which-key
+	url = https://github.com/liuchengxu/vim-which-key.git
+[submodule "nvim/.local/share/nvim/site/pack/git-plugins/start/nvim-lsp"]
+	path = nvim/.local/share/nvim/site/pack/git-plugins/start/nvim-lsp
+	url = https://github.com/neovim/nvim-lsp.git
