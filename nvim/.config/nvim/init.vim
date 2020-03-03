@@ -99,6 +99,14 @@ let g:multi_cursor_quit_key            = '<Esc>'
 " Abbreviations can be used to replace fill input:
 "    :abbr tch thomas christian hage
 "
+""""""""""""""""""""""""""""""   LUA COMMANDS   """"""""""""""""""""""""""""""""
+" create shebang header for lua file.
+command! LuaFile :1 :normal i#!/usr/bin/env lua<CR><CR><esc>
+command! Parentheses :normal a(<space><space>)<esc>hh<esc>
+noremap <silent> <leader>) :Parentheses<CR>
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" opens dirvish prompt and places its window far left, full height 
+command! -nargs=? -complete=dir VSDir | vertical topleft split | silent Dirvish <args>
 
 " freed keys 
 " removed pageUp/Down functionality
@@ -112,12 +120,12 @@ nnoremap <silent> <esc> :noh<CR><esc>
 map <c-p> <Nop><CR>
 map <c-n> <Nop><CR>
 
-map <leader>l :NERDTreeToggle<CR>
+map <leader>l :VSDir 
 noremap <silent> <c-u> :call smooth_scroll#up(&scroll, 3, 1)<CR>
 noremap <silent> <c-d> :call smooth_scroll#down(&scroll, 3, 1)z<CR>
 noremap <silent> <PageUp> :call smooth_scroll#up(&scroll*2, 2, 1)<CR>
 noremap <silent> <PageDown> :call smooth_scroll#down(&scroll*2, 2, 1)<CR>
-nmap <c-q> :q<CR>
+" nmap <c-q> :q<CR>
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " 			for colortemplat generation -> identify type of text

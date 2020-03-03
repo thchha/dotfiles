@@ -14,7 +14,10 @@ $1.pdf: \$(TEXFILES)
 	pdflatex $1
 
 clean:
-	rm -f *.aux *.bbl *.blg *.lof *.lot *.toc $1.synctex.gz
+	rm -f *.aux *.bbl *.blg *.lof *.lot *.log *.out *.toc $1.synctex.gz
+
+cleanpdf:
+	rm -f $1.pdf
 
 " >> Makefile
 
