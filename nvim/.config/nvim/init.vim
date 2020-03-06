@@ -33,6 +33,9 @@ set splitright
 
 " activate linenumbers relative
 set nu rnu
+set numberwidth=5 									" min columns for numbers
+
+
 set title
 set showtabline=2
 " zt and zb to align cursor
@@ -108,6 +111,9 @@ let g:multi_cursor_quit_key            = '<Esc>'
 " " open files in last window (4)
 " " open files in new tab (3)
 " let g:netrw_browse_split = 0
+
+""""""""""""""""""""""""""""""  VISTA  """"""""""""""""""""""""""""""""""""""""
+let g:vista_default_executive = "nvim_lsp"
 
 """"""""""""""""""""""""""""""  VIMWIKI   """""""""""""""""""""""""""""""""""""
 let g:vimwiki_list = [{'path': '~/workspace/wiki/raw', 'ext': '.md'}]
@@ -202,6 +208,7 @@ nmap <leader>? <cmd>lua print(vim.inspect(vim.lsp.buf_get_clients()))<CR>
 function! LspMappings()
 	setlocal omnifunc=v:lua.vim.lsp.omnifunc
 	" add completion({context}) <- provide doc for nvim_lsp
+	exec :Vista
 	nnoremap gd    <cmd>lua vim.lsp.buf.declaration()<CR>
 	nnoremap <c-]> <cmd>lua vim.lsp.buf.definition()<CR>
 	nnoremap K     <cmd>lua vim.lsp.buf.hover()<CR>
