@@ -1,3 +1,10 @@
+# Prerequisites
+
+nvim -- version < 0.5.410
+ccls installed on path
+lua-language-server in $HOME/programs/lua-language-server 
+> referencing https://github.com/sumneko/lua-language-server
+
 # configuration structure
 managed by GNU stow
 
