@@ -116,11 +116,15 @@ let g:multi_cursor_quit_key            = '<Esc>'
 let g:vista_default_executive = "nvim_lsp"
 
 """"""""""""""""""""""""""""""  VIMWIKI   """""""""""""""""""""""""""""""""""""
-let g:vimwiki_list = [{'path': '~/workspace/wiki/raw', 'ext': '.md'}]
+let g:vimwiki_list = [{'path': '~/workspace/wiki/raw'}]
 let g:vimwiki_global_ext = 0
 
+""""""""""""""""""""""""""""""  GITGUTTER  """"""""""""""""""""""""""""""""""""
+let g:gitgutter_highlight_linenrs = 1
+let g:gitgutter_preview_win_floating = 1
+let g:gitgutter_map_keys = 0
+
 """"""""""""""""""""""""""""""   ABBREVIATIONS  """""""""""""""""""""""""""""""
-"
 " Abbreviations can be used to replace fill input:
 "    :abbr tch thomas christian hage
 "
@@ -134,6 +138,8 @@ command! -nargs=? -complete=dir VSDir | vertical topleft split | silent Dirvish 
 " reselect previous visual block
 vmap < <gv
 vmap > >gv
+
+command! Git GitGutterLineHighlightsToggle
 
 " freed keys 
 " removed pageUp/Down functionality
@@ -180,8 +186,6 @@ noremap <silent> <leader>) :Parentheses<CR>
 " endfunction
 " nnoremap ? :call SynStack()<CR>
 "
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
 """"""""""""""""""""""""   Language Server Configs   """"""""""""""""""""""""""
 
 "autocmd Filetype c setlocal omnifunc=v:lua.vim.lsp.omnifunc
