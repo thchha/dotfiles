@@ -73,7 +73,6 @@ let g:multi_cursor_prev_key            = '<C-p>'
 let g:multi_cursor_skip_key            = '<C-x>'
 let g:multi_cursor_quit_key            = '<Esc>'
 
-
 """"""""""""""""   NETRW:Explorer   """"""""""""""""""""""""""""
 "" " in nvim-dir sits .netrwhist which holds bookmarks/history
 " "
@@ -139,3 +138,32 @@ noremap <silent> <PageDown> :call smooth_scroll#down(&scroll*2, 2, 1)<CR>
 " nnoremap ? :call SynStack()<CR>
 "
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+""""""""""""""""""""""""   Language Server Configs   """"""""""""""""""""""""""
+
+"autocmd Filetype c setlocal omnifunc=v:lua.vim.lsp.omnifunc
+
+:lua << EOF
+vim.cmd("packadd nvim-lsp")
+local nvim_lsp = require 'nvim_lsp'
+local nvim_util = require 'nvim_lsp/util'
+nvim_lsp.ccls.setup{
+	cmd = { "ccls", "-log-file=/tmp/ccls.log -v=1" };
+	root_dir = nvim_util.root_pattern("compile_commands.json");
+}
+EOF
+
+function! LspMappings()
+	setlocal omnifunc=v:lua.vim.lsp.omnifunc
+	" add completion({context}) <- provide doc for nvim_lsp
+	nnoremap gd    <cmd>lua vim.lsp.buf.declaration()<CR>
+	nnoremap <c-]> <cmd>lua vim.lsp.buf.definition()<CR>
+	nnoremap K     <cmd>lua vim.lsp.buf.hover()<CR>
+	nnoremap gD    <cmd>lua vim.lsp.buf.implementation()<CR>
+	nnoremap <c-k> <cmd>lua vim.lsp.buf.signature_help()<CR>
+	nnoremap 1gD   <cmd>lua vim.lsp.buf.type_definition()<CR>
+	nnoremap gr    <cmd>lua vim.lsp.buf.references()<CR>
+endfunction
+
+au FileType c :call LspMappings()
+
