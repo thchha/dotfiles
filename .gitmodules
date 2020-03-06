@@ -7,9 +7,6 @@
 [submodule "nvim/.local/share/nvim/site/pack/git-plugins/start/vista.vim"]
 	path = nvim/.local/share/nvim/site/pack/git-plugins/start/vista.vim
 	url = https://github.com/liuchengxu/vista.vim.git
-[submodule "nvim/.local/share/nvim/site/pack/git-plugins/start/vim-multiple-cursors"]
-	path = nvim/.local/share/nvim/site/pack/git-plugins/start/vim-multiple-cursors
-	url = https://github.com/terryma/vim-multiple-cursors.git
 [submodule "nvim/.local/share/nvim/site/pack/git-plugins/start/vim-smooth-scroll.vim"]
 	path = nvim/.local/share/nvim/site/pack/git-plugins/start/vim-smooth-scroll.vim
 	url = https://github.com/terryma/vim-smooth-scroll.git 

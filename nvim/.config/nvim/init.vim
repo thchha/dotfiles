@@ -25,7 +25,7 @@ set textwidth=80
 set linebreak 										" dont cut words
 set breakindent
 " wrapped lines are prepended with:
-let &showbreak = '\+++    '
+let &showbreak = '↪>  ' 
 set sidescroll=5 									" only takes effect when nowrap is set here is some text to wrap aroung
 
 set splitbelow
@@ -80,18 +80,6 @@ let g:lightline = {}
 "endfunction
 
 let g:lightline.colorscheme = 'gruvbox_material'
-""""""""""""""""""""""""""   MULTIPLE CURSORS   """""""""""""""""""""""""""""""
-let g:multi_cursor_use_default_mapping=0
-
-" Default mapping
-let g:multi_cursor_start_word_key      = '<C-n>'
-let g:multi_cursor_select_all_word_key = '<A-n>'
-let g:multi_cursor_start_key           = 'g<C-n>'
-let g:multi_cursor_select_all_key      = 'g<A-n>'
-let g:multi_cursor_next_key            = '<C-n>'
-let g:multi_cursor_prev_key            = '<C-p>'
-let g:multi_cursor_skip_key            = '<C-x>'
-let g:multi_cursor_quit_key            = '<Esc>'
 
 """"""""""""""""   NETRW:Explorer   """"""""""""""""""""""""""""
 "" " in nvim-dir sits .netrwhist which holds bookmarks/history
@@ -154,11 +142,18 @@ nnoremap <silent> <esc> :noh<CR><esc>
 map <c-p> <NOP><CR>
 map <c-n> <NOP><CR>
 nmap <c-p> <c-]>
-"nnoremap <c-o> <c-]> 
+
+" windows:
+nnoremap <tab> <c-w>w
+nnoremap <s-tab> <c-w>W
 
 " buffer switching
-nmap <leader><leader> :bn<CR>
-nmap <leader><esc> :bp<CR>
+nnoremap <leader><leader> :bn<CR>
+nnoremap <leader><esc> :bp<CR>
+
+nnoremap <leader><left> :tabprevious<CR>
+nnoremap <leader><right> :tabNext<CR>
+nnoremap <leader><ENTER> :tabnew<CR>
 
 map <leader>l :VSDir 
 noremap <silent> <c-u> :call smooth_scroll#up(&scroll, 3, 1)<CR>
@@ -212,7 +207,8 @@ nmap <leader>? <cmd>lua print(vim.inspect(vim.lsp.buf_get_clients()))<CR>
 function! LspMappings()
 	setlocal omnifunc=v:lua.vim.lsp.omnifunc
 	" add completion({context}) <- provide doc for nvim_lsp
-	exec :Vista
+	Vista
+	Vista
 	nnoremap gd    <cmd>lua vim.lsp.buf.declaration()<CR>
 	nnoremap <c-]> <cmd>lua vim.lsp.buf.definition()<CR>
 	nnoremap K     <cmd>lua vim.lsp.buf.hover()<CR>
@@ -223,4 +219,5 @@ function! LspMappings()
 endfunction
 
 au FileType c,lua :call LspMappings()
+"au FileType * :Vista!
 
