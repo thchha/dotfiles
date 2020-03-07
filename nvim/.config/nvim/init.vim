@@ -81,25 +81,6 @@ let g:lightline = {}
 
 let g:lightline.colorscheme = 'gruvbox_material'
 
-""""""""""""""""   NETRW:Explorer   """"""""""""""""""""""""""""
-"" " in nvim-dir sits .netrwhist which holds bookmarks/history
-" "
-" " make a tree style listing
-" let g:netrw_liststyle = 3
-" " disable top_banner
-" let g:netrw_banner = 0
-" " make :Lex adapt to 25% size
-" let g:netrw_winsize = 25
-" let g:netrw_sizestyle = "h"
-" let g:netrw_usetab = 0
-" let g:netrw_preview = 1
-" let g:netrw_keepdir = 0
-" let g:netrw_mousemaps = 0
-" " open files in last window (0)
-" " open files in last window (4)
-" " open files in new tab (3)
-" let g:netrw_browse_split = 0
-
 """"""""""""""""""""""""""""""  VISTA  """"""""""""""""""""""""""""""""""""""""
 let g:vista_default_executive = "nvim_lsp"
 
@@ -150,19 +131,29 @@ nnoremap <s-tab> <c-w>W
 " buffer switching
 nnoremap <leader><leader> :bn<CR>
 nnoremap <leader><esc> :bp<CR>
+nnoremap <leader><BS> :bdelete<CR>
 
-nnoremap <leader><left> :tabprevious<CR>
-nnoremap <leader><right> :tabNext<CR>
-nnoremap <leader><ENTER> :tabnew<CR>
+" tabs:
+nnoremap t<left> :tabprevious<CR>
+nnoremap t<right> :tabNext<CR>
+nnoremap tn :tabnew<CR>
+nnoremap tq :tabclose<CR>
+nnoremap th :tabprevious<CR>
+nnoremap tl :tabNext<CR>
 
-map <leader>l :VSDir 
+nnoremap <leader>? :GitMessenger<CR>
+map <leader>e :VSDir<CR>
+" TODO: create function with current buf.-nr, return to this window after vista
+" is started.
+nnoremap <leader><tab> :Vista!!<CR>
+
 noremap <silent> <c-u> :call smooth_scroll#up(&scroll, 3, 1)<CR>
 noremap <silent> <c-d> :call smooth_scroll#down(&scroll, 3, 1)z<CR>
 noremap <silent> <PageUp> :call smooth_scroll#up(&scroll*2, 2, 1)<CR>
 noremap <silent> <PageDown> :call smooth_scroll#down(&scroll*2, 2, 1)<CR>
-" nmap <c-q> :q<CR>
 
-" hint: verbose map <key> to show bindings 
+" ask if buffer is attached
+nmap <leader>lsp <cmd>lua print(vim.inspect(vim.lsp.buf_get_clients()))<CR>
 
 """"""""""""""""""""""""""""""   LUA COMMANDS   """"""""""""""""""""""""""""""""
 " create shebang header for lua file.
@@ -183,8 +174,6 @@ noremap <silent> <leader>) :Parentheses<CR>
 "
 """"""""""""""""""""""""   Language Server Configs   """"""""""""""""""""""""""
 
-"autocmd Filetype c setlocal omnifunc=v:lua.vim.lsp.omnifunc
-
 :lua << EOF
 vim.cmd("packadd nvim-lsp")
 local nvim_lsp = require 'nvim_lsp'
@@ -200,15 +189,9 @@ nvim_lsp.sumneko_lua.setup{
 }
 EOF
 
-" ask if buffer is attached
-nmap <leader>? <cmd>lua print(vim.inspect(vim.lsp.buf_get_clients()))<CR>
-
-
 function! LspMappings()
 	setlocal omnifunc=v:lua.vim.lsp.omnifunc
 	" add completion({context}) <- provide doc for nvim_lsp
-	Vista
-	Vista
 	nnoremap gd    <cmd>lua vim.lsp.buf.declaration()<CR>
 	nnoremap <c-]> <cmd>lua vim.lsp.buf.definition()<CR>
 	nnoremap K     <cmd>lua vim.lsp.buf.hover()<CR>
@@ -219,5 +202,3 @@ function! LspMappings()
 endfunction
 
 au FileType c,lua :call LspMappings()
-"au FileType * :Vista!
-

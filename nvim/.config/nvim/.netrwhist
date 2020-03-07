@@ -1,5 +1,4 @@
 let g:netrw_dirhistmax  =10
-let g:netrw_dirhist_cnt =3
-let g:netrw_dirhist_1='/home/tomes/workspace/eclipse/pks/group7/Assignment2/src/main/java/de/uniba/wiai/dsg/pks/assignment2/histogram/threaded'
-let g:netrw_dirhist_2='/home/tomes/workspace/eclipse/pks/group7/Assignment2/src/main/java/de/uniba/wiai/dsg/pks/assignment2/histogram/sequential'
-let g:netrw_dirhist_3='/home/tomes'
+let g:netrw_dirhistcnt =2
+let g:netrw_dirhist_2='/home/tomes/dotfiles/nvim/.config/nvim'
+let g:netrw_dirhist_1='/home/tomes/dotfiles/nvim/.local/share/nvim/site/pack/git-plugins/start/vista.vim/autoload/vista'

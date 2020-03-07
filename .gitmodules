@@ -28,3 +28,9 @@
 [submodule "nvim/.local/share/nvim/site/pack/git-plugins/start/vimwiki"]
 	path = nvim/.local/share/nvim/site/pack/git-plugins/start/vimwiki
 	url = https://github.com/vimwiki/vimwiki.git
+[submodule "nvim/.local/share/nvim/site/pack/git-plugins/start/vim-illuminate"]
+	path = nvim/.local/share/nvim/site/pack/git-plugins/start/vim-illuminate
+	url = https://github.com/RRethy/vim-illuminate.git
+[submodule "nvim/.local/share/nvim/site/pack/git-plugins/start/git-messenger.vim"]
+	path = nvim/.local/share/nvim/site/pack/git-plugins/start/git-messenger.vim
+	url = https://github.com/rhysd/git-messenger.vim.git
