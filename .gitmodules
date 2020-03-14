@@ -1,9 +1,6 @@
 [submodule "nvim/.local/share/nvim/site/pack/git-plugins/start/gruvbox-material.vim"]
 	path = nvim/.local/share/nvim/site/pack/git-plugins/start/gruvbox-material.vim
 	url = git@github.com:thchha/gruvbox-material.git
-[submodule "nvim/.local/share/nvim/site/pack/git-plugins/start/lightline.vim"]
-	path = nvim/.local/share/nvim/site/pack/git-plugins/start/lightline.vim
-	url = https://github.com/itchyny/lightline.vim.git
 [submodule "nvim/.local/share/nvim/site/pack/git-plugins/start/vista.vim"]
 	path = nvim/.local/share/nvim/site/pack/git-plugins/start/vista.vim
 	url = https://github.com/liuchengxu/vista.vim.git
@@ -13,15 +10,9 @@
 [submodule "nvim/.local/share/nvim/site/pack/git-plugins/start/gitgutter.vim"]
 	path = nvim/.local/share/nvim/site/pack/git-plugins/start/gitgutter.vim
 	url = https://github.com/airblade/vim-gitgutter.git 
-[submodule "nvim/.local/share/nvim/site/pack/git-plugins/start/colortemplate.vim"]
-	path = nvim/.local/share/nvim/site/pack/git-plugins/start/colortemplate.vim
-	url = https://github.com/lifepillar/vim-colortemplate.git
 [submodule "nvim/.local/share/nvim/site/pack/git-plugins/start/dirvish.vim"]
 	path = nvim/.local/share/nvim/site/pack/git-plugins/start/dirvish.vim
 	url = https://github.com/justinmk/vim-dirvish.git
-[submodule "nvim/.local/share/nvim/site/pack/git-plugins/start/vim-startify"]
-	path = nvim/.local/share/nvim/site/pack/git-plugins/start/vim-startify
-	url = https://github.com/mhinz/vim-startify.git
 [submodule "nvim/.local/share/nvim/site/pack/git-plugins/start/nvim-lsp"]
 	path = nvim/.local/share/nvim/site/pack/git-plugins/start/nvim-lsp
 	url = https://github.com/neovim/nvim-lsp.git
@@ -34,3 +25,6 @@
 [submodule "nvim/.local/share/nvim/site/pack/git-plugins/start/git-messenger.vim"]
 	path = nvim/.local/share/nvim/site/pack/git-plugins/start/git-messenger.vim
 	url = https://github.com/rhysd/git-messenger.vim.git
+[submodule "nvim/.local/share/nvim/site/pack/git-plugins/start/stellarized"]
+	path = nvim/.local/share/nvim/site/pack/git-plugins/start/stellarized
+	url = https://github.com/nightsense/stellarized.git

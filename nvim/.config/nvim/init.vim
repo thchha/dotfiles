@@ -56,30 +56,28 @@ set mouse=v
 " when searching ignore case, unless an capital is given
 " set ignorecase smartcase
 
-
-"""""""""""""""""""""""""""   COLORING  """""""""""""""""""""""""""""""""""""""
-
 syntax on
 
 set termguicolors
-set background=dark
 
-" colorscheme kalisi
-colorscheme gruvbox-material
+" thanks to a neat snippet from https://github.com/nightsense/stellarized.git
+if strftime('%H') >= 7 && strftime('%H') < 19
+	set background=light
+else
+	set background=dark
+endif
+
+set background=dark
+"colorscheme cobalt
+"colorscheme cobalt2
+colorscheme stellarized
+"colorscheme gruvbox-material
+
+set statusline=%<%f\ \[#%n%M\]\ %h%r%=%o\ %l,%c\ %P
+
+set wildcharm=<c-z>
 
 let g:gruvbox_material_background = 'medium' 
-
-let g:lightline = {}
-"			\ 'component_function': {
-"			\ 'filename': 'ShowFullPath'
-"			\ }
-"			\ }
-"			use <c-g> to get the path
-"function! ShowFullPath()
-"	return expand('%')
-"endfunction
-
-let g:lightline.colorscheme = 'gruvbox_material'
 
 """"""""""""""""""""""""""""""  VISTA  """"""""""""""""""""""""""""""""""""""""
 let g:vista_default_executive = "nvim_lsp"
@@ -109,6 +107,8 @@ vmap < <gv
 vmap > >gv
 
 command! Git GitGutterLineHighlightsToggle
+" delegate save 
+command! W w
 
 " freed keys 
 " removed pageUp/Down functionality
@@ -122,30 +122,42 @@ nnoremap <silent> <esc> :noh<CR><esc>
 " removed line up/down
 map <c-p> <NOP><CR>
 map <c-n> <NOP><CR>
-nmap <c-p> <c-]>
+" remove page up/down:
+map <c-f> <NOP><CR>
+
+nnoremap <c-p> <c-]>
 
 " windows:
 nnoremap <tab> <c-w>w
 nnoremap <s-tab> <c-w>W
+nnoremap <leader>h <c-w>H
+nnoremap <leader>k <c-w>K
 
 " buffer switching
-nnoremap <leader><leader> :bn<CR>
-nnoremap <leader><esc> :bp<CR>
-nnoremap <leader><BS> :bdelete<CR>
+nnoremap <c-PageUp> :bn<CR>
+nnoremap <c-PageDown> :bp<CR>
+nnoremap <c-del> :bdelete<CR>
+nnoremap <leader><leader> :ls<CR>:b<Space>
+nnoremap <leader><e> :buffer <c-z>
 
-" tabs:
-nnoremap t<left> :tabprevious<CR>
-nnoremap t<right> :tabNext<CR>
-nnoremap tn :tabnew<CR>
-nnoremap tq :tabclose<CR>
-nnoremap th :tabprevious<CR>
-nnoremap tl :tabNext<CR>
 
 nnoremap <leader>? :GitMessenger<CR>
-map <leader>e :VSDir<CR>
-" TODO: create function with current buf.-nr, return to this window after vista
-" is started.
-nnoremap <leader><tab> :Vista!!<CR>
+" FIXME: handle switching buffers, load time lsp server
+nnoremap <silent> <leader><esc> :call ToggleVista()<CR>
+
+let g:lastSelectedWindow = 0
+function! ToggleVista()
+	if g:lastSelectedWindow > 0
+		echomsg g:lastSelectedWindow
+		execute ":buffer " g:lastSelectedWindow
+		let g:lastSelectedWindow = 0
+		execute ":Vista!! "
+		return
+	endif
+	let g:lastSelectedWindow = bufnr('$')
+	execute ":Vista!! "
+	return
+endfunction
 
 noremap <silent> <c-u> :call smooth_scroll#up(&scroll, 3, 1)<CR>
 noremap <silent> <c-d> :call smooth_scroll#down(&scroll, 3, 1)z<CR>
@@ -161,17 +173,6 @@ command! LuaFile :1 :normal i#!/usr/bin/env lua<CR><CR><esc>
 command! Parentheses :normal a(<space><space>)<esc>hh<esc>
 noremap <silent> <leader>) :Parentheses<CR>
 
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" 			for colortemplat generation -> identify type of text
-"
-" function! SynStack()
-"     if !exists('*synstack')
-"         return
-"     endif
-"     echo map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")')
-" endfunction
-" nnoremap ? :call SynStack()<CR>
-"
 """"""""""""""""""""""""   Language Server Configs   """"""""""""""""""""""""""
 
 :lua << EOF
@@ -185,17 +186,31 @@ nvim_lsp.ccls.setup{
 local home = vim.loop.os_homedir()
 local dir = "/programs/lua-language-server"
 nvim_lsp.sumneko_lua.setup{
-	cmd = { home .. dir .. "/bin/Linux/lua-language-server", "-E", home .. dir .. "/main.lua"}
+	cmd = { home .. dir .. "/bin/Linux/lua-language-server", "-E", home .. dir .. "/main.lua" };
+	settings = {
+		Lua = {
+			runtime = {
+				version = "Lua 5.3"
+			};
+			workspace = {
+				ignoreSubmodules = "false";
+				ignoreDir = { ".git", "build" }
+			}
+		}
+	};
 }
 EOF
 
+	""Lua.runtime.version" = { "Lua 5.1" },
+	"Lua.workspace.ignoreDir = { ".git", "build" },
 function! LspMappings()
 	setlocal omnifunc=v:lua.vim.lsp.omnifunc
-	" add completion({context}) <- provide doc for nvim_lsp
-	nnoremap gd    <cmd>lua vim.lsp.buf.declaration()<CR>
-	nnoremap <c-]> <cmd>lua vim.lsp.buf.definition()<CR>
+		" add completion({context}) <- provide doc for nvim_lsp
+	inoremap <c-space> <cmd>lua vim.lsp.buf.completion()<CR>
+	nnoremap gD    <cmd>lua vim.lsp.buf.declaration()<CR>
+	nnoremap gd    <cmd>lua vim.lsp.buf.definition()<CR>
 	nnoremap K     <cmd>lua vim.lsp.buf.hover()<CR>
-	nnoremap gD    <cmd>lua vim.lsp.buf.implementation()<CR>
+	nnoremap <leader>d    <cmd>lua vim.lsp.buf.implementation()<CR>
 	nnoremap <c-k> <cmd>lua vim.lsp.buf.signature_help()<CR>
 	nnoremap 1gD   <cmd>lua vim.lsp.buf.type_definition()<CR>
 	nnoremap gr    <cmd>lua vim.lsp.buf.references()<CR>
