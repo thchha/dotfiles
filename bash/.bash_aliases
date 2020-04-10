@@ -9,4 +9,5 @@ alias mtiny='sshfs raptom@BERRYRakete:/home/raptom/storage/tiny/ ~/storage/tinyr
 alias utiny='fusermount -u /home/tomes/storage/tinyremote'
 alias path_android='PATH=$PATH:~/runenv/android/platform-tools/'
 alias path_gradle='PATH=$PATH:~/.gradle/'
-
+alias project_save='/home/tomes/bin/zeiterf_logout.lua'
+alias project_login='/home/tomes/bin/zeiterf_login.lua'
