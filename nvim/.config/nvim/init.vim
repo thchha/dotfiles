@@ -4,7 +4,7 @@
 """"
 ""
 
-" compatible mode deactivated  
+" compatible mode deactivated
 " stop fallback to vi-only-features
 set nocp
 
@@ -25,7 +25,7 @@ set textwidth=80
 set linebreak 										" dont cut words
 set breakindent
 " wrapped lines are prepended with:
-let &showbreak = '↪>  ' 
+let &showbreak = '↪>  '
 set sidescroll=5 									" only takes effect when nowrap is set here is some text to wrap aroung
 
 set splitbelow
@@ -58,26 +58,30 @@ set mouse=v
 
 syntax on
 
+set foldlevel=1
+set foldmethod=indent
+"au FileType lua set foldmethod=indent
+
 set termguicolors
 
 " thanks to a neat snippet from https://github.com/nightsense/stellarized.git
 if strftime('%H') >= 7 && strftime('%H') < 19
-	set background=light
+set background=light
 else
 	set background=dark
 endif
 
-set background=dark
 "colorscheme cobalt
 "colorscheme cobalt2
-colorscheme stellarized
-"colorscheme gruvbox-material
+"colorscheme stellarized
+colorscheme gruvbox-material
+"colorscheme tomorrow-night-blue
 
 set statusline=%<%f\ \[#%n%M\]\ %h%r%=%o\ %l,%c\ %P
 
 set wildcharm=<c-z>
 
-let g:gruvbox_material_background = 'medium' 
+let g:gruvbox_material_background = 'medium'
 
 """"""""""""""""""""""""""""""  VISTA  """"""""""""""""""""""""""""""""""""""""
 let g:vista_default_executive = "nvim_lsp"
@@ -85,6 +89,7 @@ let g:vista_default_executive = "nvim_lsp"
 """"""""""""""""""""""""""""""  VIMWIKI   """""""""""""""""""""""""""""""""""""
 let g:vimwiki_list = [{'path': '~/workspace/wiki/raw'}]
 let g:vimwiki_global_ext = 0
+let g:vimwiki_folding='list'
 
 """"""""""""""""""""""""""""""  GITGUTTER  """"""""""""""""""""""""""""""""""""
 let g:gitgutter_highlight_linenrs = 1
@@ -99,7 +104,7 @@ let g:gitgutter_map_keys = 0
 
 let mapleader = ' '
 
-" opens dirvish prompt and places its window far left, full height 
+" opens dirvish prompt and places its window far left, full height
 command! -nargs=? -complete=dir VSDir | vertical topleft split | silent Dirvish <args>
 
 " reselect previous visual block
@@ -107,14 +112,22 @@ vmap < <gv
 vmap > >gv
 
 command! Git GitGutterLineHighlightsToggle
-" delegate save 
+" delegate save
 command! W w
 
-" freed keys 
+" freed keys
 " removed pageUp/Down functionality
 map <c-f> <Nop><CR>
 map <c-b> <Nop><CR>
 nnoremap + <c-]>
+
+" delete trailing whitespaces and circumvent history
+nnoremap <F5> :call Del_postspace()<CR>
+function! Del_postspace()
+	let tmp = winsaveview()
+	keeppatterns %s/\s\+$//e
+	call winrestview(tmp)
+endfunction
 
 " clear highlight on escape
 nnoremap <silent> <esc> :noh<CR><esc>
@@ -190,7 +203,7 @@ nvim_lsp.sumneko_lua.setup{
 	settings = {
 		Lua = {
 			runtime = {
-				version = "Lua 5.3"
+				version = "Lua 5.1"
 			};
 			workspace = {
 				ignoreSubmodules = "false";
