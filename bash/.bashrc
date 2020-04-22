@@ -101,3 +101,4 @@ fi
 # for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
 HISTSIZE=10000				# count of cmds to store
 # HISTFILESIZE=65536		falls back to HISTSIZE after reading any startup file
+/home/tomes/workspace/lua/zeiterfassung/zeiterfassung_shell_prompt.lua
