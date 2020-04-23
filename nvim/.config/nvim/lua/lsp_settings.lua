@@ -3,28 +3,29 @@
 vim.cmd("packadd nvim-lsp")
 local nvim_lsp = require 'nvim_lsp'
 local nvim_util = require 'nvim_lsp/util'
-local oldPath = package.path
-local home = vim.loop.os_homedir()
-package.path = home .. '/.local/share/nvim/site/pack/git-plugins/start/diagnostic-nvim/lua/?.lua;'
-package.path = package.path .. home ..'/.local/share/nvim/site/pack/git-plugins/start/completion-nvim/lua/?.lua'
 local completion = require 'completion'
 local diag = require 'diagnostic'
-package.path = oldPath
+local home = vim.loop.os_homedir()
+local dir = "/programs/lua-language-server"
+
+local function bundle()
+		completion.on_attach()
+		diag.on_attach()
+end
+
+--[[                         CCLS                                ]]
+
 nvim_lsp.ccls.setup{
 	cmd = { home .. "/programs/ccls/Release/ccls", "-log-file=/tmp/ccls.log -v=1" };
-	on_attach = function()
-		completion.on_attach()
-		diag.on_attach()
-	end;
+	on_attach = bundle();
 	root_dir = nvim_util.root_pattern("compile_commands.json");
 }
-local dir = "/programs/lua-language-server"
+
+--[[                         LUA_SUMNEKO                         ]]
+
 nvim_lsp.sumneko_lua.setup{
 	cmd = { home .. dir .. "/bin/Linux/lua-language-server", "-E", home .. dir .. "/main.lua" };
-	on_attach = function()
-		completion.on_attach()
-		diag.on_attach()
-	end;
+	on_attach = bundle();
 	settings = {
 		Lua = {
 			runtime = {
@@ -40,4 +41,13 @@ nvim_lsp.sumneko_lua.setup{
 --"Lua.runtime.version" = { "Lua 5.1" },
 --Lua.workspace.ignoreDir = { ".git", "build" },
 
+--[[                         CCLS                                ]]
+
+dir = "/runenv/vim/kotlin-language-server/server/build/install/server/bin/"
+nvim_lsp.kotlin_language_server.setup {
+	cmd = { home .. dir .. "kotiln-language-server" };
+	on_attach = bundle();
+}
+
+-- nvim expects anything but nil
 return {}

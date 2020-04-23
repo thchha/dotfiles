@@ -1,39 +1,34 @@
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-""""""""         NEOVIM CONFIG
-""""""
-""""
-""
-
-" compatible mode deactivated
-" stop fallback to vi-only-features
-set nocp
+""""""""""""""""""""  NEOVIM CONFIG.  """"""""""""""""""""""""""""""""""""""""""
+""""""""""""""""""""""""""""""   DEPENDS ON NEOVIM LSP // LUA   """"""""""""""""
 
 filetype plugin on 									" enable filetype plugins
 
-set clipboard=unnamedplus
+" appears to be not working..:
+" set clipboard=unnamedplus						" put always in clipboard
 
-set completeopt=menuone,preview,noinsert,noselect
+" noinsert: dont get it. Has no functionality for me?
+set completeopt=menuone,preview,noselect
 
 set autoread										" update file on external change
 set fileformat=unix
 set hidden											" remember undos after quit
-set history=1000
+set history=10000
 
 " wrapping lines at:
 set textwidth=80
 "set nowrap
+"set sidescroll=5 									" only takes effect when nowrap is set here is some text to wrap aroung
+
+let &showbreak = '↪>  '
 set linebreak 										" dont cut words
 set breakindent
-" wrapped lines are prepended with:
-let &showbreak = '↪>  '
-set sidescroll=5 									" only takes effect when nowrap is set here is some text to wrap aroung
 
 set splitbelow
 set splitright
 
-" activate linenumbers relative
 set nu rnu
-set numberwidth=5 									" min columns for numbers
+set numberwidth=4 									" min columns for numbers
 
 
 set title
@@ -44,8 +39,6 @@ set ruler
 set tabstop=4
 " > <   should always go with the tabstop length
 set shiftwidth=0
-" set smartindent
-" set smarttab
 
 set hlsearch
 set incsearch
@@ -60,7 +53,6 @@ syntax on
 
 set foldlevel=1
 set foldmethod=indent
-"au FileType lua set foldmethod=indent
 
 set termguicolors
 
@@ -81,17 +73,16 @@ set statusline=%<%f\ \[#%n%M\]\ %h%r%=%o\ %l,%c\ %P
 
 set wildmode=longest:full
 "set wildcharm=<c-z> 			" wildmode=longest:full appears to replace this 
+ 
 
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+""""""""""""""""""""""""   EXTERNAL FILE SOURCING   """"""""""""""""""""""""""""
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-""""""""""""""""""""""""""""""   LUA COMMANDS   """"""""""""""""""""""""""""""""
-" create shebang header for lua file.
-command! LuaFile :1 :normal i#!/usr/bin/env lua<CR><CR><esc>
-command! Parentheses :normal a(<space><space>)<esc>hh<esc>
-noremap <silent> <leader>) :Parentheses<CR>
-
-
+" source files from dir:
 for f in split(glob('~/.config/nvim/config/*.vim'), '\n')
 	exec 'source' f
 endfor
 
+packloadall									" workaround for require 'fromplugin'
 lua lsp_settings = lsp_settings or require 'lsp_settings' 

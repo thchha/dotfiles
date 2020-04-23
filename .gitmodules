@@ -34,3 +34,6 @@
 [submodule "nvim/.local/share/nvim/site/pack/git-plugins/start/diagnostic-nvim"]
 	path = nvim/.local/share/nvim/site/pack/git-plugins/start/diagnostic-nvim
 	url = https://github.com/haorenW1025/diagnostic-nvim.git
+[submodule "nvim/.local/share/nvim/site/pack/git-plugins/start/kotlin-vim"]
+	path = nvim/.local/share/nvim/site/pack/git-plugins/start/kotlin-vim
+	url = https://github.com/udalov/kotlin-vim.git
