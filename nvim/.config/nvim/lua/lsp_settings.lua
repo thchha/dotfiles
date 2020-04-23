@@ -45,7 +45,7 @@ nvim_lsp.sumneko_lua.setup{
 
 dir = "/runenv/vim/kotlin-language-server/server/build/install/server/bin/"
 nvim_lsp.kotlin_language_server.setup {
-	cmd = { home .. dir .. "kotiln-language-server" };
+	cmd = { home .. dir .. "kotlin-language-server" };
 	on_attach = bundle();
 }
 

@@ -63,6 +63,7 @@ else
 	set background=dark
 endif
 
+"colorscheme falcon
 "colorscheme cobalt
 "colorscheme cobalt2
 "colorscheme stellarized
