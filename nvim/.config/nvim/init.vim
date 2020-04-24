@@ -30,7 +30,6 @@ set splitright
 set nu rnu
 set numberwidth=4 									" min columns for numbers
 
-
 set title
 set showtabline=2
 " zt and zb to align cursor
@@ -52,23 +51,19 @@ set mouse=v
 syntax on
 
 set foldlevel=1
-set foldmethod=indent
+set foldmethod=syntax
 
 set termguicolors
 
 " thanks to a neat snippet from https://github.com/nightsense/stellarized.git
 if strftime('%H') >= 7 && strftime('%H') < 19
-set background=light
+	set background=light
 else
 	set background=dark
 endif
 
-"colorscheme falcon
-"colorscheme cobalt
-"colorscheme cobalt2
-"colorscheme stellarized
-colorscheme gruvbox-material
-"colorscheme tomorrow-night-blue
+colorscheme stellarized
+"colorscheme gruvbox-material
 
 set statusline=%<%f\ \[#%n%M\]\ %h%r%=%o\ %l,%c\ %P
 
@@ -79,11 +74,14 @@ set wildmode=longest:full
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 """"""""""""""""""""""""   EXTERNAL FILE SOURCING   """"""""""""""""""""""""""""
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" remove augroups before sourcing
+
+augr LuaGroup au! augr end 
+augr KotlinGroup au! augr end 
 
 " source files from dir:
 for f in split(glob('~/.config/nvim/config/*.vim'), '\n')
 	exec 'source' f
 endfor
 
-packloadall									" workaround for require 'fromplugin'
 lua lsp_settings = lsp_settings or require 'lsp_settings' 

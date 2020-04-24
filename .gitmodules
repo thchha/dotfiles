@@ -28,15 +28,6 @@
 [submodule "nvim/.local/share/nvim/site/pack/git-plugins/start/stellarized"]
 	path = nvim/.local/share/nvim/site/pack/git-plugins/start/stellarized
 	url = https://github.com/nightsense/stellarized.git
-[submodule "nvim/.local/share/nvim/site/pack/git-plugins/start/completion-nvim"]
-	path = nvim/.local/share/nvim/site/pack/git-plugins/start/completion-nvim
-	url = https://github.com/haorenW1025/completion-nvim.git
-[submodule "nvim/.local/share/nvim/site/pack/git-plugins/start/diagnostic-nvim"]
-	path = nvim/.local/share/nvim/site/pack/git-plugins/start/diagnostic-nvim
-	url = https://github.com/haorenW1025/diagnostic-nvim.git
 [submodule "nvim/.local/share/nvim/site/pack/git-plugins/start/kotlin-vim"]
 	path = nvim/.local/share/nvim/site/pack/git-plugins/start/kotlin-vim
 	url = https://github.com/udalov/kotlin-vim.git
-[submodule "nvim/.local/share/nvim/site/pack/git-plugins/start/falcon"]
-	path = nvim/.local/share/nvim/site/pack/git-plugins/start/falcon
-	url = https://github.com/fenetikm/falcon.git

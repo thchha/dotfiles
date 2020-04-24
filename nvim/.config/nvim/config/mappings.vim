@@ -17,7 +17,7 @@ map <c-b> <Nop><CR>
 
 " german keyboard workaround(s)
 nnoremap + <c-]>
-nnoremap <c-p> <c-]>
+"nnoremap <c-p> <c-]>
 
 " delete trailing whitespaces and circumvent history
 nnoremap <F5> :call Del_postspace()<CR>
@@ -35,6 +35,9 @@ map <c-p> <NOP><CR>
 map <c-n> <NOP><CR>
 map <c-f> <NOP><CR>
 
+" window switching
+nnoremap <tab> <c-w>w
+nnoremap <s-tab> <c-w>W
 
 " buffer switching
 nnoremap <c-PageUp> :bn<CR>
@@ -46,19 +49,22 @@ nnoremap <leader>? :GitMessenger<CR>
 " FIXME: handle switching buffers, load time lsp server
 nnoremap <silent> <leader><esc> :call ToggleVista()<CR>
 
-let g:lastSelectedWindow = 0
+let s:lastSelectedWindow = 0
 function! ToggleVista()
-	if g:lastSelectedWindow > 0
-		echomsg g:lastSelectedWindow
-		execute ":buffer " g:lastSelectedWindow
-		let g:lastSelectedWindow = 0
+	if s:lastSelectedWindow > 0
+		echomsg s:lastSelectedWindow
+		execute ":buffer " s:lastSelectedWindow
+		let s:lastSelectedWindow = 0
 		execute ":Vista!! "
 		return
 	endif
-	let g:lastSelectedWindow = bufnr('$')
+	let s:lastSelectedWindow = bufnr('$')
 	execute ":Vista!! "
 	return
 endfunction
+
+" grepping
+map <F10> :vim <cword> **/*
 
 " eyes appearing to age
 noremap <silent> <c-u> :call smooth_scroll#up(&scroll, 3, 1)<CR>

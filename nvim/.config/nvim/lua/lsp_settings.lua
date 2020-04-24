@@ -3,14 +3,10 @@
 vim.cmd("packadd nvim-lsp")
 local nvim_lsp = require 'nvim_lsp'
 local nvim_util = require 'nvim_lsp/util'
-local completion = require 'completion'
-local diag = require 'diagnostic'
 local home = vim.loop.os_homedir()
 local dir = "/programs/lua-language-server"
 
 local function bundle()
-		completion.on_attach()
-		diag.on_attach()
 end
 
 --[[                         CCLS                                ]]

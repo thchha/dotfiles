@@ -1,4 +1,9 @@
 au FileType c,lua,kotlin :call LspMappings()
-au FileType lua set foldmethod=indent
-autocmd BufReadPost *.kt setlocal filetype=kotlin
+augroup LuaGroup
+	au FileType lua setlocal foldmethod=indent
+	au FileType lua setlocal tabstop=2
+augroup end
 
+augroup KotlinGroup
+	au FileType kotlin setlocal filetype=kotlin
+augroup end

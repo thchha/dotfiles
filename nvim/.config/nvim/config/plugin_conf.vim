@@ -14,7 +14,7 @@ let g:gitgutter_preview_win_floating = 1
 let g:gitgutter_map_keys = 0
 
 """"""""""""""""""""""""""""""   COMPLETION   """""""""""""""""""""""""""""""""
-
+"
 """"""""""""""""""""""""""""""   DIAGNOSTICS  """""""""""""""""""""""""""""""""
 let g:diagnostic_enable_virtual_text = 1
 let g:diagnostic_auto_popup_while_jump = 1
