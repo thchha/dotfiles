@@ -1,0 +1,13 @@
+(cons 1 2)
+(+ 1 (- 10 2)) ; a comment
+(in-package :vlime)
+(symbol-value (find-symbol "*PACKAGE*" "COMMON-LISP")) 
+(defun foo (arg)
+  (progn
+    (if (!= arg NIL)
+        10)
+    5))
+
+(foo NIL)
+
+
