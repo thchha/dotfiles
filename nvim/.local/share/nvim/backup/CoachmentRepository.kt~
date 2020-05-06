@@ -1,0 +1,471 @@
+package de.hage.coachment.data
+
+import android.content.Context
+import androidx.annotation.VisibleForTesting
+import com.couchbase.lite.CouchbaseLite
+import com.couchbase.lite.Database
+import com.couchbase.lite.DatabaseConfiguration
+import de.hage.coachment.data.contracts.catalogue.CatalogueRepository
+import de.hage.coachment.data.contracts.catalogue.DetailExerciseRepository
+import de.hage.coachment.data.contracts.landing.LandingRepository
+import de.hage.coachment.data.contracts.routine.AdjustRoutineRepository
+import de.hage.coachment.data.contracts.routine.MainRoutineRepository
+import de.hage.coachment.data.contracts.routine.PerformExerciseRepository
+import de.hage.coachment.data.dao.CategoryDAO
+import de.hage.coachment.data.dao.ExerciseDAO
+import de.hage.coachment.data.dao.NotesDAO
+import de.hage.coachment.data.dao.RecordDAO
+import de.hage.coachment.data.dao.RoutineDAO
+import de.hage.coachment.data.dao.SettingDAO
+import de.hage.coachment.domain.CoachmentDomainException
+import de.hage.coachment.domain.PreviewData
+import de.hage.coachment.domain.model.Category
+import de.hage.coachment.domain.model.CoachmentSetting
+import de.hage.coachment.domain.model.Exercise
+import de.hage.coachment.domain.model.News
+import de.hage.coachment.domain.model.Note
+import de.hage.coachment.domain.model.PickerType
+import de.hage.coachment.domain.model.Record
+import de.hage.coachment.domain.model.Routine
+import de.hage.data.R
+import java.util.Date
+import java.util.concurrent.locks.ReentrantLock
+
+class CoachmentRepository private constructor() :
+    MainRoutineRepository,
+    AdjustRoutineRepository,
+    PerformExerciseRepository,
+    LandingRepository,
+    CatalogueRepository,
+    DetailExerciseRepository {
+
+    companion object {
+        @VisibleForTesting(otherwise = VisibleForTesting.NONE)
+        fun delete() {
+            instance?.db?.delete()
+        }
+
+        @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+        var databaseName: String = "coachmentDatabase"
+
+        @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+        var instance: CoachmentRepository? = null
+
+        fun getInstance(appContext: Context): CoachmentRepository {
+            if (instance == null)
+                CouchbaseLite.init(appContext)
+            return instance
+                ?: CoachmentRepository().also {
+                instance = it
+            }
+        }
+    }
+
+    val lastVersionName: String?
+    get() {
+        synchronized(lockDAO) {
+            return daoSettings.getLastVersion()
+        }
+    }
+
+    /**
+     * lock for all DAO's, so we can
+     * synchronize the injected [Database]
+     */
+    private val lockDAO: ReentrantLock
+
+    private val daoSettings: SettingDAO
+    private val daoRecord: RecordDAO
+    private val daoRoutine: RoutineDAO
+    private val daoCategory: CategoryDAO
+    private val daoNotes: NotesDAO
+    private val daoExercise: ExerciseDAO
+
+    private val db: Database
+    private val batch: Database
+
+    init {
+        // TODO: change dir, if it can not survive application reinstall
+        val config = DatabaseConfiguration()
+        db = Database(databaseName, config)
+
+        val lookUp = DatabaseConstant()
+
+        lockDAO = ReentrantLock()
+
+        batch = db
+        daoSettings = SettingDAO(db, lookUp)
+        daoRecord = RecordDAO(db, lookUp)
+        daoCategory = CategoryDAO(db, lookUp)
+        daoExercise = ExerciseDAO(db, lookUp)
+        daoRoutine = RoutineDAO(db, lookUp, daoRecord, daoCategory)
+        daoNotes = NotesDAO(db, lookUp)
+
+    }
+
+    override fun initCategories(context: Context) {
+		synchronized(lockDAO) {
+            if (daoCategory.getAll().isNotEmpty()) throw CoachmentDomainException("Invalid invocation - categories already published")
+            listOf(
+                    R.string.default_category_hand,
+                    R.string.default_category_forearm,
+                    R.string.default_category_triceps,
+                    R.string.default_category_leg,
+                    R.string.default_category_gluteus,
+                    R.string.default_category_back,
+                    R.string.default_category_shoulder,
+                    R.string.default_category_neck,
+                    R.string.default_category_head,
+                    R.string.default_category_core,
+                    R.string.default_category_biceps,
+                    R.string.default_category_chest
+            )
+                    .map { context.getString(it) }
+                    .forEach {
+                        daoCategory.save(it, true)
+                    }
+        }
+    }
+
+    override fun initHomeExercises(context: Context) {
+		synchronized(lockDAO) {
+            PreviewData.Production.getHomeExercises(context, daoCategory.getAll())
+                    .forEach {
+                        val id = daoExercise.save(null,
+                                it["exercise_title"] as String,
+                                it["exercise_picker_type"] as PickerType,
+                                30,
+                                false
+                        )
+                        for (cat in it["exercise_categories"] as Array<Category>)
+                            daoCategory.associate(cat.id, id)
+                        val exercise = daoExercise.getBy(id)
+                        val some = exercise.name
+                    }
+        }
+    }
+
+    override fun initGymExercises(context: Context) {
+        synchronized(lockDAO) {
+            PreviewData.Production.getGymExercises(context, daoCategory.getAll())
+                    .forEach {
+            val id = daoExercise.save(null,
+                    it["exercise_title"] as String,
+                    it["exercise_picker_type"] as PickerType,
+                    30,
+                    false
+            )
+            for (cat in it["exercise_categories"] as Array<Category>)
+                daoCategory.associate(cat.id, id)
+			val exercise = daoExercise.getBy(id)
+            val some = exercise.name
+        }
+        }
+    }
+
+    @VisibleForTesting(otherwise = VisibleForTesting.NONE)
+    fun prepareData(){
+        synchronized(lockDAO) {
+            val categories = daoCategory.getAll().size
+            if (categories == 0) {
+                val data = PreviewData()
+                data.getCategories()
+                    .forEach {
+                        daoCategory.save(it, true)
+                    }
+
+                val cats = daoCategory.getAll()
+
+                data.getExercises(cats)
+                    .forEach {
+                        val id = daoExercise.save(null,
+                            it["exercise_title"] as String,
+                            it["exercise_picker_type"] as PickerType,
+                            30,
+                            false
+                        )
+                        for (cat in it["exercise_categories"] as Array<Category>)
+                            daoCategory.associate(cat.id, id)
+                    }
+            }
+        }
+    }
+
+    override fun removeCategory(
+        category: Category
+    ) {
+        synchronized(lockDAO) {
+            daoCategory.remove(category.id)
+        }
+    }
+
+    override fun removeExercise(
+        exercise: Exercise,
+        affected: MutableSet<Category>
+    ) {
+        synchronized(lockDAO) {
+            daoExercise.remove(exercise.id)
+            for (cat in affected)
+               daoCategory.disassociate(cat.id, exercise.id)
+        }
+    }
+
+    override fun renameCategory(categoryOld: Category, nameNew: String) {
+        synchronized(lockDAO) {
+            daoCategory.save(categoryOld.id, nameNew, false)
+        }
+    }
+
+
+    override fun getRoutines(): List<Routine> {
+        synchronized(lockDAO) {
+            return daoRoutine.getAll()
+        }
+    }
+
+    override fun getWelcomingMessage(): String {
+        return "FitHub vergeben. fitter oder fitube"
+        TODO("Not yet implemented")
+    }
+
+    override fun getSummaryPrompt(): String {
+        return "Hey. Danke fürs Testen. Bisher circa 17000 Zeilen Code."
+        TODO("Not yet implemented")
+    }
+
+    override fun getNews(): List<News> {
+        synchronized(lockDAO) {
+            return daoSettings.getChangelog()
+        }
+    }
+
+    override fun getAverageTimeSpend(): Int {
+        val routines : List<Routine>
+        synchronized(lockDAO) {
+            routines = daoRoutine.getAll()
+        }
+        val count = routines.count()
+        val millisToMinutes = 60L * 1000L
+        return routines
+            .map { it.duration }
+            .sum()
+            .takeIf { it != 0L }
+            ?.div(millisToMinutes)
+            ?.div(count)
+            ?.toInt()
+            ?: 1
+    }
+
+    override fun saveRoutine(
+        startTime: Long,
+        recordReferences: List<Record>,
+        userPickedCategories: List<Category>
+    ) {
+        // TODO: When adding afterwards, the starttime needs to be verifyfied
+        val endTime = System.currentTimeMillis()
+        val duration = endTime - startTime
+        val pauseTimeKummulated = recordReferences.map { it.pauseTimeOffSet }.sum()
+        val pickedCategoryIds = userPickedCategories.map { it.id }
+        synchronized(lockDAO) {
+            val id = daoRoutine.save(
+                startTime,
+                endTime,
+                pickedCategoryIds,
+                duration,
+                pauseTimeKummulated,
+                1f // TODO: generate this
+            )
+            daoRecord.saveAll(id, recordReferences)
+        }
+    }
+
+    override fun saveNote(referenceId: String, note: String) {
+        synchronized(lockDAO) {
+            daoNotes.save(referenceId, note)
+        }
+    }
+
+    override fun getCategories(): List<Category> {
+        synchronized(lockDAO) {
+            return daoCategory.getAll()
+        }
+    }
+
+
+    override fun getExercisesOf(category: Category): Set<Exercise> {
+        synchronized(lockDAO) {
+            return daoCategory.getExerciseIds(category)
+                .map { daoExercise.getBy(it) }
+                .toSet()
+        }
+    }
+
+    override fun saveCategory(text: String): Category {
+        synchronized(lockDAO) {
+            val id = daoCategory.save(text, false)
+            return daoCategory.getBy(id)
+        }
+    }
+
+    override fun saveExercise(
+        id: String?,
+        title: String,
+        pickerType: PickerType,
+        categoryIds: Array<String>,
+        defaultPause: Long,
+        archived: Boolean
+    ): Exercise {
+        synchronized(lockDAO) {
+            val exerciseId = daoExercise.save(id, title, pickerType, defaultPause, archived)
+            if (id != null && exerciseId != id)
+                throw DataLayerException("daoExercise has not updated correctly the exercise.id $id.")
+
+            val all = daoCategory.getAll()
+            for (cat in all) {
+                if (categoryIds.contains(cat.id)) {
+                    // add the reference
+                    daoCategory.associate(cat.id, exerciseId)
+                } else { // delete the reference
+                    if (daoCategory.getExerciseIds(cat).contains(exerciseId))
+                        daoCategory.disassociate(cat.id, exerciseId)
+                }
+            }
+            return daoExercise.getBy(exerciseId)
+        }
+    }
+
+    fun getExerciseById(exerciseId: String): Exercise {
+        return daoExercise.getBy(exerciseId)
+    }
+
+    override fun getEquipmentSuggestions(exerciseId: String): List<String> {
+        synchronized(lockDAO) {
+            return daoExercise.getAll()
+                .filter { it.pickerType == PickerType.SingleEquipment ||
+                        it.pickerType == PickerType.CountingEquipment }
+                .flatMap {
+                    daoRecord.getAllByExercise(it.id)
+                }
+                .map {
+                    it.values["equipment"] as String
+                }
+                // TODO: Reduce, with ordering?
+                .distinct()
+        }
+    }
+
+    override fun getAverageValues(record: Record): Map<String, Any> {
+        synchronized(lockDAO) {
+            daoRecord.getAllByExercise(record.exerciseId)
+                .filter { it.javaClass == record.javaClass }
+                .map { it.values }
+            // TODO: implement me
+            return mapOf("count" to 0, "weight" to 50)
+        }
+    }
+
+    override fun getClicksPerMinute(): Int {
+        synchronized(lockDAO) {
+            return daoSettings.getSettings().metronomeClicksPerMinute
+        }
+    }
+
+    override fun getMetronomeMuted(): Boolean {
+        synchronized(lockDAO) {
+            return daoSettings.getSettings().metronomeMuted
+        }
+    }
+
+    override fun setClicksPerMinute(newValue: Int) {
+        synchronized(lockDAO) {
+            daoSettings.setClicksPerMinute(newValue)
+        }
+    }
+
+    override fun setMetronomeMuted(b: Boolean) {
+        synchronized(lockDAO) {
+            daoSettings.setMetronomeMuted(b)
+        }
+    }
+
+    override fun getRecordsOf(exerciseId: String): List<Record> {
+        synchronized(lockDAO) {
+            return daoRecord.getAllByExercise(exerciseId)
+        }
+    }
+
+    override fun getNotesOf(documentId: String): List<Note> {
+        synchronized(lockDAO) {
+            return daoNotes.getNotes().filter { it.referenceId == documentId }
+        }
+    }
+
+    fun addVersionName(
+        title: String,
+        first: Long,
+        version: String,
+        content: String,
+        link: String) {
+        synchronized(lockDAO) {
+            return daoSettings.add(title, Date(first), version, content, link)
+        }
+    }
+
+    override fun getSettings(): CoachmentSetting {
+        synchronized(lockDAO) {
+            return daoSettings.getSettings()
+        }
+    }
+
+    override fun setArchivedExercisesHidden(hideArchive: Boolean) {
+        synchronized(lockDAO) {
+            return daoSettings.save(hideArchive)
+        }
+    }
+
+    override fun getCategoriesOf(exercise: Exercise): List<Category> {
+        synchronized(lockDAO) {
+            return daoCategory.getAll()
+                    .filter {
+                        daoCategory.getExerciseIds(it).contains(exercise.id)
+                    }
+        }
+    }
+
+    override fun getAutoPauseActive(): Boolean {
+        synchronized(lockDAO) {
+            return daoSettings.getSettings().autoPause
+        }
+    }
+
+    override fun getMetronomeAlwaysActive(): Boolean {
+        synchronized(lockDAO) {
+            return daoSettings.getSettings().metronomeAlwaysPlaying
+        }
+    }
+
+    override fun setAutoPauseActive(checked: Boolean) {
+		synchronized(lockDAO) {
+            daoSettings.setAutoPauseActive(checked)
+        }
+    }
+
+    override fun setMetronomeAlwaysActive(checked: Boolean) {
+        synchronized(lockDAO) {
+            daoSettings.setMetronomeAlwaysActive(checked)
+        }
+    }
+
+    fun setTheme(name: String) {
+        synchronized(lockDAO) {
+            daoSettings.setTheme(name)
+        }
+    }
+
+    fun getTheme() : String{
+		synchronized(lockDAO) {
+            return daoSettings.getTheme()
+        }
+    }
+
+}

@@ -1,0 +1,33 @@
+
+local M = {}
+
+local sqlite = require 'lsqlite'
+local path = "/mnt/db/blog_stats.sqlite3"
+local db = sqlite.open(path)
+
+
+local endpoints = {}
+function M.incrementAt(key)
+  local old = endpoints[key] or 0
+  endpoints[key] = old + 1
+end
+
+local get = "SELECT * FROM counter WHERE key = %s;"
+local ins = "INSERT INTO counter VALUES (%s, 1);"
+local inc = "UPDATE counter SET count = count + %d WHERE key=%s;"
+local overallCount = 0
+function M.onClientServed()
+  overallCount = overallCount + 1
+
+  if overallCount % 20 then -- write out
+    for key, c in pairs(endpoints) do
+      local res, err = db:exec(string.format(get, key))
+      if not res or err then
+        db:exec(string.format(ins, key))
+        c = c - 1
+      end
+      db:exec(string.format(inc, c, key))
+    end
+  end
+end
+return M

@@ -1,0 +1,99 @@
+# blog?.say("Hello World!")
+
+Wow, that was kind of complex. Once I have written out all my scripts for
+querying my timetable database, I will paste in the time spend on it. But
+overall, it was definitely more than thirty hours. Just considering writing back- and front-end, but setting up the infrastructure etc...
+
+### Why not just a static site?
+
+I wanted to familiarize myself with the techniques/methods used for web
+development. And I picked up hell-a-lot. And I built a minimal framework for my
+private use-case: Running a dynamic server on my raspberry pi without
+trade-offs.
+
+> With all HTML-pages cached in memory, the backend requires 2.7 MB.
+
+- setting up web server
+- read up upon web technologies
+- applying TLS to it
+- manage permissions and groups on linux
+- read up upon web technologies (wow, resources are just bloated with crap)
+- configure the webserver for delegating to my backend
+- start writing the actual backend
+- parse the html-content on server site
+- apply css to the website
+- parse, cut, chunk, chop and flex training for urls
+- deploy database
+- parse markdown
+- write a blog post.
+
+Let me say this in advance: The effort spent can not be justified. So many, way
+more important, things have been put aside for this. Luckily my current visitors
+are just crawlers/hackers, so I do not feel too ashamed for this first draft post! 
+But even you guys: I placed some notes in case you guys want to revisit some
+things as well. In case you are a person and even in favour with me: **Thanks
+for your visit!**
+
+## Content, please...
+
+Yeah, short abstract: 
+This thing here, called `Hage's Lua Box v.0.1` is build upon: 
+[Debian](https://www.debian.org/) ARM-64-bit headless +
+[lighttpd](https://www.lighttpd.net/) 1.4 +
+a lua-application which uses [luasocket](http://w3.impa.br/~diego/software/luasocket/) + [lqlite](https://github.com/maxdoom-com/lsqlite.git) - and that's it. 
+
+> use `curl` or your browser to get this string!
+
+Okay, now let's give you some content...
+
+First thing you will learn is: There are already plenty of solutions available, free or
+paid - But finding them requires the correct wording and your own requirements.
+So this project helped me get there. 
+
+> Did you know the difference between [Netty](https://netty.io/) and [TomCat](https://tomcat.apache.org/) or even Lighttpd? 
+> What about [spring-boot](https://spring.io/projects/spring-boot) or [micronaut](https://micronaut.io/)?
+
+Webservers need to be started as root. This is due to the ports used
+when you want to make your site available to the public. 
+
+> Check which ports require root permissions on Linux.
+
+After opening your ports, be aware that you just entered _the_ war zone. Hopefully you
+are prepared. Within the first night opening my ports, I heard my discs roaring,
+buzzing and vibrating. I was wondering if I just recognized these sounds.. 
+
+> learn about `lsof` and other network utilities.
+
+So, the next day, I started researching how to display current connections on my linux server. And I have found plenty of connections displayed with the user: **root**. Here I have to mention: My ssh-config was already restricted to ssh-keys. Anyways, some of these IPs were unknown to me.
+
+### As time goes by, an eye for an eye - We in this together son, your beef is mines 
+
+Okay - Somehow - this guy was logged on as root on my pi, even though I thought
+my permissive configuration was sufficient. Anyways! I am capable of
+some CLI-power as well (ha, I guess) - so don't worry and fight back!
+I started with my first skill: redirection! 
+
+> file descriptors and redirections
+
+After storing the output of `lsof` in a file, I rebooted. Haahaha, know you
+have to start your attack all-over! Right? Right??
+
+> Read upon various security things, procrastinate and feel uncomfortable.
+
+Anyhow. I searched for his IP-address via google (measurements! Do not consulate
+this giant. My two cents `(for now!! =)`) and got one result. Him/her/them has to be some chinese folk, aweful bloated website with... I can't read Chinese. I haven't even installed chinese
+encodings.. And my CLI-powers appeared to vanish..
+
+> change any port from default to something.. other. And be permissive when
+> allowing _specific_ ports to be forwarded to _specific_ machines.
+
+### My current achievements
+Setup a website, get attacked every hour (which only results in 2 seconds of ping-spikes before rejecting further
+access to my boxes) and be afraid that at some point somebody will get access
+without myself recognizing it. Once a human starts fighting, he adapts pretty fast.
+I get daily new ideas to survive in this war. Unfortunately time is limited...
+My advice is: Do not underestimate the attacks you will encounter. Only join
+this war if you have built your defense and - hopefully we won't face eachother as enemies.. (or again, dear hackers).
+
+## to be continued.. ;- ) 
+

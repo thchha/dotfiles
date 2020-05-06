@@ -1,0 +1,32 @@
+
+local function getHTML()
+  local blog_db = require 'endpoint.post.blog_db'
+
+	return function(id)
+    if not id then return end
+    local post = READ_FILE(HTDOCS .. "blog_article.html")
+    local res = blog_db.getById(id)
+    local f = io.popen("markdown " .. res[1].content, 'r')
+    local content = f:read('*a')
+    f:close()
+    post = string.gsub(post, "{title}", res[1].title)
+    post = string.gsub(post, "{content}", content)
+    post = string.gsub(post, "{created}", os.date("%d.%m.%Y", res[1].created))
+    post = string.gsub(post, "{updated}", os.date("%d.%m.%Y", res[1].updated))
+    return HEADER.from {
+      code = 200;
+      last_modified = os.date(res[1].updated);
+      host = "blog.hage.gq";
+      content = post;
+    }
+	end
+end
+
+return coroutine.create(function()
+	local res, req
+	local render = getHTML()
+	while true do
+		req = coroutine.yield( res )
+    _, res = pcall(render, string.match(req.query.id, "(%d+)%s*") )
+	end
+end)

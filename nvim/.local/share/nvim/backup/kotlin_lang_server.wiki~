@@ -1,0 +1,55 @@
+UTF-8 vs UTF-16 vs. UTF-32
+
+BOM vs little endian vs big endian.
+
+BOM (byte order mark)
+
+prerequesite:
+
+create a basic gradle project
+`gradle init`
+> options: basic, groovy DSL, neovim-test
+
+`touch Main.kt`
+where the locale settings are as following:
+```
+$ locale
+LANG=de_DE.utf8
+LANGUAGE=
+LC_CTYPE="de_DE.utf8"
+LC_NUMERIC="de_DE.utf8"
+LC_TIME="de_DE.utf8"
+LC_COLLATE="de_DE.utf8"
+LC_MONETARY="de_DE.utf8"
+LC_MESSAGES="de_DE.utf8"
+LC_PAPER="de_DE.utf8"
+LC_NAME="de_DE.utf8"
+LC_ADDRESS="de_DE.utf8"
+LC_TELEPHONE="de_DE.utf8"
+LC_MEASUREMENT="de_DE.utf8"
+LC_IDENTIFICATION="de_DE.utf8"
+LC_ALL=
+```
+
+```
+$ file -i Main.kt
+Main.kt: inode/x-empty; charset=binary
+```
+
+insert text into it and save it.
+> note that the language server was already working, capabilities were UTF-8 and
+> UTF-16
+
+```
+$ iconv -f US-ASCII -t UTF-8 -o Main2.kt Main.kt 
+$ file -i Main2.kt
+Main2.kt: text/x-c++; charset=us-ascii
+```
+
+Change did not work appropriate.
+Lets create the file within nvim. 
+> note that `:verbose set encoding` outputs `encoding=utf-8`
+> note that `:verbose set fileencoding` outputs `fileencoding=utf-8`
+
+`file -i FromNvim.kt` prompts the similiar result.
+

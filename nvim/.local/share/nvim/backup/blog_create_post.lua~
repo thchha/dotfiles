@@ -1,0 +1,7 @@
+
+if #arg < 2 then return end
+if type(arg[1]) ~= "string" then return end
+if type(arg[2]) ~= "string" then return end
+
+
+

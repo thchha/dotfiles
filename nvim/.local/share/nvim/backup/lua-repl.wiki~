@@ -1,0 +1,7 @@
+create a vm specific for lua where luarocks is installed.
+
+test croissaint as well as jeejah (from fennel wiki)
+> jeejah is broken from luarocks.
+> croissaint has troubles resolving the dependencies on the box.
+
+the vm can not access my clipboard 

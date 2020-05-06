@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<title>BLOG - HAGE - GQ</title>
+		<meta name="description" content="">
+		<meta name="author" content="">
+		<!-- Mobile-->
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+
+		<link rel="stylesheet" href="https://www.hage.gq/css/normalize.css">
+		<link rel="stylesheet" href="https://www.hage.gq/css/website.css">
+		<link href="https://fonts.googleapis.com/css2?family=Courier+Prime&display=swap" rel="stylesheet"> 
+
+		<link rel="icon" type="image/png" href="https://www.hage.gq/favicon-16.png">
+	</head>
+	<body>
+		<link rel="stylesheet" href="https://www.hage.gq/css/blog_index.css">
+		<div class="navigation">
+            <p>Hey there, I'm Thomas.</p>
+            <p>
+            This blog aims to be a personal tool, helping me to investigate
+            topics interesting to me. If you have any comment, feel free to
+            <a href="mailto: thomas.hage@live.de">e-Mail me</a>.</p>
+		</div>
+
+		<div class="body">
+            {posts}
+		</div>
+
+        <footer class="footer">
+            <div class="vertical">
+                <a id="copyright" href="https://www.hage.gq" >© 2020 Thomas Hage</a>
+                <p>powered by <a href="https://www.debian.org">Debian</a> on a
+                    <a href="https://www.raspberrypi.org">Raspberry Pi</a>
+                    running <a href="https://www.lighttpd.net">lighttpd</a>
+                    and assembled with <a href="https://www.lua.org">Lua</a>.</p>
+            </div>
+        </footer>
+
+	</body>
+</html> 

@@ -1,0 +1,20 @@
+
+local function getResponse()
+  local html = READ_FILE(HTDOCS .. "invalid.html")
+	return function(request)
+    return HEADER.from {
+			code = 404;
+			content = string.gsub(html, "%{path%}", request.path or "42");
+		}
+	end
+end
+
+return coroutine.create(function()
+	local parse = getResponse()
+	local req, res
+	while true do
+		req = coroutine.yield( res )
+    STATS.incrementAt("/invalid")
+		_, res = pcall(parse, req)
+	end
+end)

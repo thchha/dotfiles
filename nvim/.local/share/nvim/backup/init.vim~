@@ -35,8 +35,6 @@ set showtabline=2
 " zt and zb to align cursor
 set scrolloff=3
 set ruler
-
-set expandtab
 set tabstop=4
 " > <   should always go with the tabstop length
 set shiftwidth=0

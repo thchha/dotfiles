@@ -1,0 +1,84 @@
+html {
+	background-color: #19224d;
+
+	--background-navigation-color: #151d43;
+	--background-footer-color: #151d43;
+	--background-blog-preview: #151d43;
+    --font-color-secondary: #f9f9ee9f;
+    --default-font-color: #f9f9ee; 
+    color: var(--default-font-color);
+	font-family: 'Courier Prime', monospace;
+	--base-font-size: 1.6rem;
+	font-size: var(--base-font-size);
+
+    --link-unvisited: #dac83a;
+    --link-visited: #dac83a;
+    --link-hovered: #fae644;
+    --link-active: #fae644;
+}
+
+body {
+    padding: 2rem 2rem 6rem 2rem;
+    max-width: 38rem;
+    margin: auto;
+}
+
+.body {
+    grid-column-start: 2;
+	background-color: var(--background-content-color);
+}
+
+.navigation {
+right: 0;
+    left: 0;
+    grid-column-start: 2;
+    padding: 24px 36px;
+    background-color: var(--background-navigation-color);
+}
+
+.navigation > a {
+	text-align: grid;
+	display: grid;
+	grid-gap: 20px;
+	padding: 16px;
+}
+
+footer {
+    display: flex;
+    justify-content: end;
+    padding: 12px;
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+	min-height: 64px;
+    line-height: 0.5em;
+	background-color: var(--background-footer-color);
+}
+footer a, p {
+    font-size: 0.5rem;
+}
+footer .vertical {
+    margin: auto;
+    flex-direction: column;
+    text-align: center;
+}
+
+h1 h2 h3 h4 h5 h6 a p {
+    color: #f3f4fa;
+    font-size: 0.8rem;
+}
+a:link { color: var(--link-unvisited); }
+a:visited { color: var(--link-visited); }
+a:hover { color: var(--link-hovered); }
+a:active { color: var(--link-active); }
+
+#copyright:link { color: var(--default-font-color); }
+#copyright:visited { color: var(--default-font-color); }
+#copyright:hover { color: var(--link-hovered); }
+
+* {
+	box-sizing: border-box;
+    line-height: 1.5em;
+    text-decoration: none;
+}

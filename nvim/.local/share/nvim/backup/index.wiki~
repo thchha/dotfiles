@@ -1,0 +1,61 @@
+= Meine Wissensdatenbank =
+
+== Aufzaben ==
+	* [[privat|Listenansicht]] Privat
+	* [[arbeit|Listenansicht]] Arbeit
+	* [[projekte|Listenansicht]] Projekte
+
+== C ==
+	- [[Preproccessing]]
+	- [[Compiling]]
+	- [[Linking]]
+	- [[CMake]]
+	- [[cmocka|CMocka benuten]]
+	- CMocka mit CMake benutzen 
+	- Haushaltsbuch-Frontend
+
+== VIM/NEOVIM ==
+	- [X] jumplist lesen
+	- [X] Iteriere **/*.lua und gib alle Warnungen aus -> :vim /?/ **/*.lua ||
+      <F10> with <cword>
+	- [X] tag stack lesen
+	- [X] autocmd lesen
+	- [X] Fold comments lernen
+	- [X] autocmd für automatisch buffer attachen?: Rückgabewert von <leader>? verwerten
+	- [X] [[nvim-lsp]]
+
+=== PLUGINS ===
+
+> set(CMAKE_EXPORT_COMPILE_COMMANDS 1) creates the compilation database
+
+after installing an plugin, generate its doc:
+	{{{ 
+	:helptags <path/to/plugin-dir>/doc
+	}}}
+	
+=== Linux ===
+	- [X] [[rsync]] bisher erledigt und kein Bedarf mehr zu Lernen
+	- [ ] script nach rsync, dass fstab ordenerstruktur berücksichtigt
+    - [X] notification every 15 min
+    - [X] refactor zeiterfassung.timer task -> redirect output instead of own
+          script
+    - [X] vm for luarocks
+
+== Lua ==
+	- [X] Language Server einbinden
+	- [X] [[http_lua|Vergleich von HTTP]]
+	- [ ] Haushaltsbuch-Server
+	- [X] Luvit-like Framework erstellen
+    - [ ] [[lua-repl]]
+
+== Blog ==
+	- [ ] Tests kotlin val, lateinit var -> no assignment
+    - [ ] software for [[non techies]]
+
+== NVIM ==
+    - [ ] [[kotlin_lang_server]]
+    - [ ] 
+
+== Algorithmen ==
+	- [ ] Alle Algorithmen übersichtlich hinterlegen
+	- [ ] alle algorithmen in C implementieren

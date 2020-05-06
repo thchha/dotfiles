@@ -1,0 +1,22 @@
+
+local M = {}
+local dir = "/mnt/server_static_data/blog.hage.gq/logs/"
+
+local tmp = {}
+function M.e(tag, msg)
+  local format = string.format("%s at %s: %s", tag, os.date("%X"), msg or "nil propagated")
+  table.insert(tmp, #tmp, format)
+  print("ERR:", format)
+  if table.getn(tmp) > 20 then
+    local fn = dir .. os.date("%d_%m_%Y")
+    local f = io.open(fn, "a")
+    for _=1,20 do -- if inf l
+      local str = table.remove(tmp, 0)
+      f:write(str .. "\n")
+    end
+    f:flush()
+    f:close()
+  end
+end
+
+return M

@@ -1,0 +1,24 @@
+header { padding-top: 48px; }
+
+.languages { 
+    display: grid;
+    grid-template-columns: 50% 50%;
+    text-align: center;
+}
+#lang_title { grid-column: span 2; }
+#lang { 
+    margin: 0 24px;
+    grid-column-start: 1;
+    background-color: var(--background-footer-color);
+    border-radius: 1rem;
+}
+#frameworks { 
+    margin: 0 24px;
+    grid-column-start: 2;
+    background-color: var(--background-footer-color);
+    border-radius: 1rem;
+}
+
+.blog { }
+.code { }
+.contact { text-align: center;}

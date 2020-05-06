@@ -1,0 +1,18 @@
+package de.hage
+
+
+class SecondMain {
+
+    fun main(args: Int, arg: Array<String>): Int {
+
+        "some".chars()
+        1224.div(12)
+
+        "awesome".reader()
+
+        print("Hello Kotlin")
+        return 0;
+    }
+
+}
+

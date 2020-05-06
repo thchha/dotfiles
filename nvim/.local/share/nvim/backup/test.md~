@@ -1,0 +1,29 @@
+CREATED: 26th April 2017
+UPDATED: 28th April 2025
+
+TITLE:
+# A Big Bold Title To Check Underscores
+
+CONTENT:
+This is some text i should load, parse and then display.
+There are a some requirements which make the task more difficult:
+When on the blog-index all listed posts should contain a little preview.
+This preview has to be read from this file and parsed in appropriate spots.
+This implies that the structure of this file has to be fixed or the
+_implementation_ may break. Furthermore the filename needs to be used as a link
+to navigate to - this will introduce, for sure, further complexity. We will
+see. On and by the way.. 
+
+```lua
+function test() 
+	local display = "to_"
+	return display .. "some formatted code"
+end
+```
+
+## Some second title - Have fun parsing
+
+</br>
+OH, that was an html tag, which should work 'native' ;- )
+
+*Have fun!*

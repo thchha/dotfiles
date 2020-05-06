@@ -1,6 +1,7 @@
 """"""""""""""""""""""""""""""   MAPPINGS   """"""""""""""""""""""""""""""""""""
 
 let mapleader = ' '
+let maplocalleader = '_'
 
 " reselect previous visual block
 vmap < <gv

@@ -31,3 +31,6 @@
 [submodule "nvim/.local/share/nvim/site/pack/git-plugins/start/kotlin-vim"]
 	path = nvim/.local/share/nvim/site/pack/git-plugins/start/kotlin-vim
 	url = https://github.com/udalov/kotlin-vim.git
+[submodule "nvim/.local/share/nvim/site/pack/git-plugins/start/sticky_suggestions-vim"]
+	path = nvim/.local/share/nvim/site/pack/git-plugins/start/sticky_suggestions-vim
+	url = git@github.com:thchha/sticky_suggestions-vim.git

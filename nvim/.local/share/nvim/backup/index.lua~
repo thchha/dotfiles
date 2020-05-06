@@ -1,0 +1,63 @@
+local js_blog = [[
+<link rel="stylesheet" href="https://www.hage.gq/css/blog_preview.css">
+<script type="application/javascript">
+function onPostClicked(postname) {
+  /* delegate to post at "/posts?name=postname" */
+  alert(postname);
+}
+</script>
+]]
+
+local function read_blogs()
+  local blog_db = require 'endpoint.post.blog_db'
+
+  local iter = coroutine.create(function()
+    local res, err = blog_db.getAll()
+    if err then return err end
+    for i=1, #res do
+      local id = res[i].id
+      local title = res[i].title
+      local abstract = res[i].abstract
+      local created = res[i].created
+      coroutine.yield(id, title, abstract, os.date("%d.%m.%Y", created))
+    end
+  end)
+
+  return function()
+    local html = READ_FILE(HTDOCS .. "blog_preview.html")
+    local div = html
+    local _, id, post_name, post_preview, d = coroutine.resume( iter )
+    if not _ then LOG.e("/", id) return end
+    if id == nil then return end -- stop iterator
+    div = string.gsub(div, "{id}", id)
+    div = string.gsub(div, "{title}", post_name)
+    div = string.gsub(div, "{preview}", post_preview)
+    div = string.gsub(div, "{date}", d)
+    return div
+  end
+end
+
+local function getAggregate()
+  local html = READ_FILE(HTDOCS .. "index.html")
+
+	return function()
+		local aggregated = ""
+		for div in read_blogs() do
+			aggregated = aggregated .. div
+		end
+    aggregated = js_blog .. aggregated
+		return HEADER.from {
+      code = 200;
+      content = string.gsub(html, "{posts}", aggregated);
+    }
+	end
+end
+
+return coroutine.create(function()
+	local res
+	local aggregate = getAggregate()
+	while true do
+		coroutine.yield( res )
+		_, res = pcall(aggregate)
+	end
+end)

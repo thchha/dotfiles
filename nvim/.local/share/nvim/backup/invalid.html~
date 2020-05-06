@@ -1,0 +1,7 @@
+<!DOCTYPE html>
+<html>
+	<body>
+        <a>Sorry, I am not able to forward you to the resource {path}.</a>
+        <a href="https://blog.hage.gq/">Back to my Blog</a>
+	</body>
+</html>

@@ -1,0 +1,18 @@
+.preview {
+    max-width: 720px;
+    margin: 4rem auto;
+    background-color: var(--background-blog-preview);
+    border-radius: 1em;
+    padding: 2rem 2rem;
+    text-align: center;
+}
+
+.preview h2 { margin: 0rem 0rem; }
+.preview h2:hover { color: var(--default-font-color); }
+
+.preview a:link { color: var(--default-font-color); }
+.preview a:visited { color: var(--default-font-color); }
+.preview:hover > a{ color: var(--link-hovered); }
+.preview a:active { color: var(--link-hovered); }
+
+#blog_preview_date { color: var(--font-color-secondary); }
