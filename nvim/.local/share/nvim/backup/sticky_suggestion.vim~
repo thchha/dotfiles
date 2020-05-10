@@ -3,18 +3,12 @@ if exists("s:ticky_beeing")
 endif
 let s:ticky_beeing = 1
 
-let g:sticky_suggestion_min_length = 3
+let g:sticky_suggestion_min_length = 1
 
-inoremap <expr> <cr> sticky_suggestion#accept()
-"
+inoremap <expr> <tab> pumvisible() ? "\<c-n>" : "\<tab>"
+inoremap <expr> <s-tab> pumvisible() ? "\<c-p>" : "\<s-tab>"
+
 " takes the first suggestion. 
-function! sticky_suggestion#accept()
-	if pumvisible() == 1
-		return "\<c-n>\<esc>\a"
-	else
-		return "\<cr>"
-	endif
-endfunction
 
 augroup StickySuggestionMenuGroup
 	au!
@@ -23,6 +17,7 @@ augroup StickySuggestionMenuGroup
 augroup end
 
 function! s:onKeystroke()
+    if v:char == ' ' | return | endif
 	if pumvisible() == 1 | return | endif
 	let p = 1
 	while p < g:sticky_suggestion_min_length
@@ -32,7 +27,7 @@ function! s:onKeystroke()
 	endwhile
 	
 	if &omnifunc == '' 
-		call feedkeys("\<c-x>\<c-n>")
+		call feedkeys("\<c-x>\<c-i>")
 		return
 	endif
 	call feedkeys("\<c-x>\<c-o>")

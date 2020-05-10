@@ -34,6 +34,6 @@
 [submodule "nvim/.local/share/nvim/site/pack/git-plugins/start/sticky_suggestions-vim"]
 	path = nvim/.local/share/nvim/site/pack/git-plugins/start/sticky_suggestions-vim
 	url = git@github.com:thchha/sticky_suggestions-vim.git
-[submodule "nvim/.local/share/nvim/site/pack/git-plugins/start/vlime"]
-	path = nvim/.local/share/nvim/site/pack/git-plugins/start/vlime
-	url = https://github.com/vlime/vlime.git
+[submodule "nvim/.local/share/nvim/site/pack/git-plugins/start/vim-slime"]
+	path = nvim/.local/share/nvim/site/pack/git-plugins/start/vim-slime
+	url = https://github.com/jpalardy/vim-slime.git

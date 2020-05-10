@@ -1,6 +1,11 @@
 
 augroup CommonGroup
-    au FileType * setlocal spell spelllang=en_us
+"    au FileType * setlocal spell spelllang=en_us
+augroup end
+
+augroup LispGroup
+    au FileType lisp setlocal autoindent
+    au FileType lisp inoremap ( (<c-]>
 augroup end
 
 augroup CGroup
@@ -15,6 +20,5 @@ augroup LuaGroup
 augroup end
 
 augroup KotlinGroup
-    au FileType kotlin setlocal filetype=kotlin
     au FileType kotlin :call LspMappings()
 augroup end

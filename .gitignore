@@ -4,3 +4,4 @@ nvim/.local/share/nvim/swap/*
 nvim/.local/share/nvim/vim-lsp.log
 nvim/.local/share/nvim/session/*
 nvim/.local/share/nvim/log
+nvim/.local/share/nvim/backup

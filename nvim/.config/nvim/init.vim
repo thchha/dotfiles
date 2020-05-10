@@ -85,8 +85,11 @@ set wildmode=longest:full
 
 augroup HTMLGroup | au! | augr end
 augroup CSSGroup | au! | augr end
-augr LuaGroup | au! | augr end 
-augr KotlinGroup | au! | augr end 
+augroup LuaGroup | au! | augr end 
+augroup KotlinGroup | au! | augr end 
+augroup CommonGroup | au! | augr end 
+augroup LispGroup | au! | augr end 
+augroup CGroup | au! | augr end 
 
 " source files from dir:
 for f in split(glob('~/.config/nvim/config/*.vim'), '\n')

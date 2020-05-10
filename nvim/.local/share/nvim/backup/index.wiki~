@@ -5,6 +5,7 @@
 	* [[arbeit|Listenansicht]] Arbeit
 	* [[projekte|Listenansicht]] Projekte
 
+
 == C ==
 	- [[Preproccessing]]
 	- [[Compiling]]
@@ -39,7 +40,6 @@ after installing an plugin, generate its doc:
     - [X] notification every 15 min
     - [X] refactor zeiterfassung.timer task -> redirect output instead of own
           script
-    - [X] vm for luarocks
 
 == Lua ==
 	- [X] Language Server einbinden
@@ -51,10 +51,10 @@ after installing an plugin, generate its doc:
 == Blog ==
 	- [ ] Tests kotlin val, lateinit var -> no assignment
     - [ ] software for [[non techies]]
+    - [ ] [[ESIM]] (embedded )
 
 == NVIM ==
-    - [ ] [[kotlin_lang_server]]
-    - [ ] 
+    - [X] [[kotlin_lang_server]]
 
 == Algorithmen ==
 	- [ ] Alle Algorithmen übersichtlich hinterlegen

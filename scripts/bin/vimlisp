@@ -1,0 +1,4 @@
+#!/bin/bash
+
+cd ~/workspace/lisp/
+tmux new-session sbcl
