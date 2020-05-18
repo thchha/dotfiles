@@ -9,13 +9,20 @@ local dir = "/programs/lua-language-server"
 local function bundle()
 end
 
+--[[                         CLANGD                              ]]
+
+require'nvim_lsp'.clangd.setup{}
+
 --[[                         CCLS                                ]]
+--[[
 
 nvim_lsp.ccls.setup{
 	cmd = { home .. "/programs/ccls/Release/ccls", "-log-file=/tmp/ccls.log -v=1" };
 	on_attach = bundle();
 	root_dir = nvim_util.root_pattern("compile_commands.json");
 }
+
+]]
 
 --[[                         LUA_SUMNEKO                         ]]
 

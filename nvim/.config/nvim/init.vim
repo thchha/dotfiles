@@ -15,10 +15,10 @@ set fileformat=unix
 set hidden											" remember undos after quit
 set history=10000
 
-" wrapping lines at:
-set textwidth=80
-"set nowrap
-"set sidescroll=5 									" only takes effect when nowrap is set here is some text to wrap aroung
+" never wrap lines 
+"set textwidth=80
+set nowrap
+set sidescroll=5 									" only takes effect when nowrap is set here is some text to wrap aroung
 
 let &showbreak = '↪>  '
 set linebreak 										" dont cut words
@@ -55,22 +55,10 @@ syntax on
 set foldlevel=1
 set foldmethod=syntax
 
-set termguicolors
-
 set backup
 set backupdir=~/.local/share/nvim/backup/
 set writebackup
 set backupcopy=yes
-
-" thanks to a neat snippet from https://github.com/nightsense/stellarized.git
-if strftime('%H') >= 7 && strftime('%H') < 19
-	set background=light
-else
-	set background=dark
-endif
-
-colorscheme stellarized
-"colorscheme gruvbox-material
 
 set statusline=%<%f\ \[#%n%M\]\ %h%r%=%o\ %l,%c\ %P
 

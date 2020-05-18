@@ -101,4 +101,12 @@ fi
 # for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
 HISTSIZE=10000				# count of cmds to store
 # HISTFILESIZE=65536		falls back to HISTSIZE after reading any startup file
+
+# Base16 Shell
+BASE16_SHELL="$HOME/.config/base16-shell/"
+[ -n "$PS1" ] && \
+        [ -s "$BASE16_SHELL/profile_helper.sh" ] && \
+                eval "$("$BASE16_SHELL/profile_helper.sh")"
+
+
 /home/tomes/workspace/lua/zeiterfassung/zeiterfassung_shell_prompt.lua

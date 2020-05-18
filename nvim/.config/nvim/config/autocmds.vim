@@ -16,7 +16,9 @@ augroup LuaGroup
     au FileType lua setlocal foldmethod=indent
     au FileType lua setlocal tabstop=2
     au FileType lua setlocal softtabstop=2
-    au FileType lua:call LspMappings()
+    au FileType lua :call LspMappings()
+    au FileType lua nmap <C-c><C-c> vipJ<Plug>SlimeParagraphSend :undo<CR>
+    au FileType lua nmap <C-c><C-c> vipJ<Plug>SlimeRegionSend :undo<CR>
 augroup end
 
 augroup KotlinGroup
