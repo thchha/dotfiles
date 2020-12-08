@@ -1,3 +1,0 @@
-#!/bin/sh
-# emulator latest
-optirun /home/tomes/runenv/android/emulator/emulator -avd Pixel_3a_API_29

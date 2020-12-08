@@ -1,9 +1,5 @@
 #!/bin/sh
-#my custom aliases
 alias ll='ls -la'
-alias note='qn notes general'
-alias path_android='PATH=$PATH:~/runenv/android/platform-tools/'
-alias path_gradle='PATH=$PATH:~/.gradle/'
 alias ztin='zeiterf_in'
 alias ztout='zeiterf_out'
 alias ztpop='notify-send -t 5000 "$(/home/tomes/workspace/lua/zeiterfassung/zeiterfassung_shell_prompt.lua)"'

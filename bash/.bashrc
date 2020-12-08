@@ -1,6 +1,4 @@
 # ~/.bashrc: executed by bash(1) for non-login shells.
-# see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
-# for examples
 
 # If not running interactively, don't do anything
 case $- in
@@ -12,9 +10,12 @@ esac
 # See bash(1) for more options
 HISTCONTROL=ignoreboth
 
+# for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
+HISTSIZE=10000
+# HISTFILESIZE=65536		falls back to HISTSIZE after reading any startup file
+
 # append to the history file, don't overwrite it
 shopt -s histappend
-
 
 # check the window size after each command and, if necessary,
 # update the values of LINES and COLUMNS.
@@ -73,40 +74,26 @@ esac
 if [ -x /usr/bin/dircolors ]; then
     test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
     alias ls='ls --color=auto'
-    #alias dir='dir --color=auto'
-    #alias vdir='vdir --color=auto'
-
-    #alias grep='grep --color=auto'
-    #alias fgrep='fgrep --color=auto'
-    #alias egrep='egrep --color=auto'
 fi
 
 # colored GCC warnings and errors
 export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
 
-# some more ls aliases
-#alias ll='ls -l'
-#alias la='ls -A'
-#alias l='ls -CF'
-
-# Alias definitions.
-# You may want to put all your additions into a separate file like
-# ~/.bash_aliases, instead of adding them here directly.
-# See /usr/share/doc/bash-doc/examples in the bash-doc package.
-
 if [ -f ~/.bash_aliases ]; then
     . ~/.bash_aliases
 fi
 
-# for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
-HISTSIZE=10000				# count of cmds to store
-# HISTFILESIZE=65536		falls back to HISTSIZE after reading any startup file
-
-# Base16 Shell
-BASE16_SHELL="$HOME/.config/base16-shell/"
-[ -n "$PS1" ] && \
-        [ -s "$BASE16_SHELL/profile_helper.sh" ] && \
-                eval "$("$BASE16_SHELL/profile_helper.sh")"
+# specific for the local machine:
+if [ -f ~/.bash_local ]; then
+    . ~/.bash_local
+fi
 
 
-/home/tomes/workspace/lua/zeiterfassung/zeiterfassung_shell_prompt.lua
+set show-all-if-ambiguous on
+set completion-ignore-case on
+set completion-map-case on
+
+shopt -s cdspell
+
+export CDPATH=.:~
+

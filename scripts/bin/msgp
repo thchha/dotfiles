@@ -1,0 +1,7 @@
+#!/bin/sh
+
+# arg: 1 the port to use locally
+# arg: 2 the file to open
+# arg: 3 the line to jump to
+# arg: 4 the column
+echo '[0,0,"nvim_command", ["e '$2'| call cursor('$3','$4') | call feedkeys(\"V\")"]]' | json2msgpack | nc -q1 localhost $1 | msgpack2json -d

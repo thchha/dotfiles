@@ -1,0 +1,5 @@
+#!/bin/sh
+
+# arg: 1 the port to use locally
+# arg: 2 the command to send
+echo '[0,0,"nvim_command", ["'$2'"]]' | json2msgpack | nc -q1 localhost $1 | msgpack2json -d
