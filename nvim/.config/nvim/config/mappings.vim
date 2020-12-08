@@ -2,111 +2,45 @@
 
 let mapleader = ' '
 
-" reselect previous visual block
 vmap < <gv
 vmap > >gv
 
-command! Git GitGutterLineHighlightsToggle
-" abbr for :ex
-command! W w
+noremap <leader>y "+y
+noremap <leader>p "+p
 
-" freed keys
-" removed pageUp/Down functionality
-map <c-f> <Nop><CR>
-map <c-b> <Nop><CR>
+inoremap jk <esc>
+inoremap kj <esc>
 
-" german keyboard workaround(s)
-nnoremap + <c-]>
-"nnoremap <c-p> <c-]>
-
-" delete trailing whitespaces and circumvent history
-nnoremap <F5> :call Del_postspace()<CR>
-function! Del_postspace()
-	let tmp = winsaveview()
-	keeppatterns %s/\s\+$//e
-	call winrestview(tmp)
-endfunction
-
-" clear highlight on escape
 nnoremap <silent> <esc> :noh<CR><esc>
 
-" cleared keys
-map <c-p> <NOP><CR>
-map <c-n> <NOP><CR>
-map <c-f> <NOP><CR>
+nnoremap <leader><leader> :ls<space>t<CR>:b<Space>
+nnoremap <leader><CR> :b<Space>#<CR>
 
-" window switching
-nnoremap <tab> <c-w>w
-nnoremap <s-tab> <c-w>W
+" useful if muscle memory opens file with c-f
+map <c-f> <Nop>
+" for completeness.. (and tmux-prefix)
+map <c-b> <Nop>
 
-" buffer switching
-nnoremap <c-PageUp> :bn<CR>
-nnoremap <c-PageDown> :bp<CR>
-nnoremap <c-del> :bdelete<CR>
-nnoremap <leader><leader> :ls<CR>:b<Space>
+augroup ProgGroup
+  au FileType perl,vim,c,lua,latex,tex,plaintex,kotlin,scheme :call environment#lsp_mapping()
+  au FileType perl,c,lua,kotlin,scheme setlocal omnifunc=v:lua.vim.lsp.omnifunc
+  au FileType perl,vim,c,lua,latex,tex,plaintex,kotlin,scheme :call environment#lsp_diagnostic()
+  au FileType latex,tex,plaintex nmap <buffer> <f3> <cmd>lua vim.fn.texlab_forward_search()<cr>
+	au FileType html nnoremap <buffer> <f3> <cmd>call environment#css_implementation()<cr>
+augroup end
 
-nnoremap <leader>? :GitMessenger<CR>
-" FIXME: handle switching buffers, load time lsp server
-nnoremap <silent> <leader><esc> :call ToggleVista()<CR>
+vnoremap <F5> :call environment#delete_trailing_whitespaces('v')<CR>
+nnoremap <F5> :call environment#delete_trailing_whitespaces('n')<CR>
 
-let s:lastSelectedWindow = 0
-function! ToggleVista()
-	if s:lastSelectedWindow > 0
-		echomsg s:lastSelectedWindow
-		execute ":buffer " s:lastSelectedWindow
-		let s:lastSelectedWindow = 0
-		execute ":Vista!! "
-		return
-	endif
-	let s:lastSelectedWindow = bufnr('$')
-	execute ":Vista!! "
-	return
-endfunction
+noremap <silent> <F13> :call environment#text_focus()<CR>
+noremap <silent> <F1> :call environment#focus()<CR>
 
-" grepping
-map <F10> :vim <cword> **/*
-
-" eyes appearing to age
 noremap <silent> <c-u> :call smooth_scroll#up(&scroll, 3, 1)<CR>
 noremap <silent> <c-d> :call smooth_scroll#down(&scroll, 3, 1)z<CR>
 noremap <silent> <PageUp> :call smooth_scroll#up(&scroll*2, 2, 1)<CR>
 noremap <silent> <PageDown> :call smooth_scroll#down(&scroll*2, 2, 1)<CR>
 
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-""""""""""""""""""""""""""""""  LSP SPECIFICS  """""""""""""""""""""""""""""""""
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" ask if buffer is attached
-nmap <leader>lsp <cmd>lua print(vim.inspect(vim.lsp.buf_get_clients()))<CR>
-
-augroup HTMLGroup
-	
-	au FileType html nnoremap <f3> <cmd>call CSS_implementation()<cr>
-augroup end
-
-function! CSS_implementation() abort
-	let id = searchpos("id", "wnb", line('.'))[1]
-	let class = searchpos("class", "wnb", line('.'))[1]
-
-	if class > 0 || id > 0
-		if class < id
-			execute ":vim '#".expand('<cword>')."' **/*.css"
-		elseif class > id
-			execute ":vim '.".expand('<cword>')."' **/*.css"
-		endif
-	endif
-endfunction
-
-function! LspMappings()
-	setlocal omnifunc=v:lua.vim.lsp.omnifunc
-		" add completion({context}) <- provide doc for nvim_lsp
-	inoremap <c-space> <cmd>lua vim.lsp.buf.completion()<CR>
-	nnoremap gD    <cmd>lua vim.lsp.buf.declaration()<CR>
-	nnoremap gd    <cmd>lua vim.lsp.buf.definition()<CR>
-	nnoremap K     <cmd>lua vim.lsp.buf.hover()<CR>
-	nnoremap <f3>    <cmd>lua vim.lsp.buf.implementation()<CR>
-	nnoremap <c-k> <cmd>lua vim.lsp.buf.signature_help()<CR>
-	" TODO: read up
-	nnoremap 1gD   <cmd>lua vim.lsp.buf.type_definition()<CR>
-	nnoremap gr    <cmd>lua vim.lsp.buf.references()<CR>
-endfunction
-
+nnoremap <leader>gg :GitGutterToggle<CR>
+nnoremap <leader>ggl :GitGutterLineHighlightsToggle<CR>
+nnoremap <leader>gK :GitGutterPreviewHunk<CR>
+nnoremap <leader>g? :GitMessenger<CR>
