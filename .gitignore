@@ -7,3 +7,5 @@ nvim/.local/share/nvim/log
 nvim/.local/share/nvim/backup
 nvim/.local/share/nvim/session
 nvim/.local/share/nvim/view
+bash/.bash_local
+nvim/.config/nvim/.netrwhist
