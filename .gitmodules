@@ -1,18 +1,15 @@
-[submodule "nvim/.local/share/nvim/site/pack/git-plugins/start/vista.vim"]
-	path = nvim/.local/share/nvim/site/pack/git-plugins/start/vista.vim
-	url = https://github.com/liuchengxu/vista.vim.git
 [submodule "nvim/.local/share/nvim/site/pack/git-plugins/start/vim-smooth-scroll.vim"]
 	path = nvim/.local/share/nvim/site/pack/git-plugins/start/vim-smooth-scroll.vim
-	url = https://github.com/terryma/vim-smooth-scroll.git 
+	url = https://github.com/terryma/vim-smooth-scroll.git
 [submodule "nvim/.local/share/nvim/site/pack/git-plugins/start/gitgutter.vim"]
 	path = nvim/.local/share/nvim/site/pack/git-plugins/start/gitgutter.vim
-	url = https://github.com/airblade/vim-gitgutter.git 
+	url = https://github.com/airblade/vim-gitgutter.git
 [submodule "nvim/.local/share/nvim/site/pack/git-plugins/start/dirvish.vim"]
 	path = nvim/.local/share/nvim/site/pack/git-plugins/start/dirvish.vim
 	url = https://github.com/justinmk/vim-dirvish.git
 [submodule "nvim/.local/share/nvim/site/pack/git-plugins/start/nvim-lsp"]
 	path = nvim/.local/share/nvim/site/pack/git-plugins/start/nvim-lsp
-	url = https://github.com/neovim/nvim-lsp.git
+	url = https://github.com/neovim/nvim-lspconfig.git
 [submodule "nvim/.local/share/nvim/site/pack/git-plugins/start/vimwiki"]
 	path = nvim/.local/share/nvim/site/pack/git-plugins/start/vimwiki
 	url = https://github.com/vimwiki/vimwiki.git
@@ -27,7 +24,16 @@
 	url = https://github.com/udalov/kotlin-vim.git
 [submodule "nvim/.local/share/nvim/site/pack/git-plugins/start/sticky_suggestions-vim"]
 	path = nvim/.local/share/nvim/site/pack/git-plugins/start/sticky_suggestions-vim
-	url = git@github.com:thchha/sticky_suggestions-vim.git
+	url = https://github.com/thchha/sticky_suggestions-vim.git
 [submodule "nvim/.local/share/nvim/site/pack/git-plugins/start/vim-slime"]
 	path = nvim/.local/share/nvim/site/pack/git-plugins/start/vim-slime
 	url = https://github.com/jpalardy/vim-slime.git
+[submodule "nvim/.local/share/nvim/site/pack/git-plugins/start/vim"]
+	path = nvim/.local/share/nvim/site/pack/git-plugins/start/vim
+	url = https://github.com/embark-theme/vim.git
+[submodule "nvim/.local/share/nvim/site/pack/git-plugins/start/vim-android"]
+	path = nvim/.local/share/nvim/site/pack/git-plugins/start/vim-android
+	url = https://github.com/hsanson/vim-android.git
+[submodule "nvim/.local/share/nvim/site/pack/git-plugins/start/nvim-dap"]
+	path = nvim/.local/share/nvim/site/pack/git-plugins/start/nvim-dap
+	url = https://github.com/mfussenegger/nvim-dap.git
