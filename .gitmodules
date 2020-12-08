@@ -28,12 +28,12 @@
 [submodule "nvim/.local/share/nvim/site/pack/git-plugins/start/vim-slime"]
 	path = nvim/.local/share/nvim/site/pack/git-plugins/start/vim-slime
 	url = https://github.com/jpalardy/vim-slime.git
-[submodule "nvim/.local/share/nvim/site/pack/git-plugins/start/vim"]
-	path = nvim/.local/share/nvim/site/pack/git-plugins/start/vim
-	url = https://github.com/embark-theme/vim.git
 [submodule "nvim/.local/share/nvim/site/pack/git-plugins/start/vim-android"]
 	path = nvim/.local/share/nvim/site/pack/git-plugins/start/vim-android
 	url = https://github.com/hsanson/vim-android.git
 [submodule "nvim/.local/share/nvim/site/pack/git-plugins/start/nvim-dap"]
 	path = nvim/.local/share/nvim/site/pack/git-plugins/start/nvim-dap
 	url = https://github.com/mfussenegger/nvim-dap.git
+[submodule "nvim/.local/share/nvim/site/pack/git-plugins/start/perlomni.vim"]
+	path = nvim/.local/share/nvim/site/pack/git-plugins/start/perlomni.vim
+	url = https://github.com/c9s/perlomni.vim.git
