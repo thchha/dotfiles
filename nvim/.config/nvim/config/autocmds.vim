@@ -1,5 +1,4 @@
 highlight ExtraWhitespace ctermbg=brown guibg=brown
-"match ExtraWhitespace /\s\+$/
 
 augroup BehaviourGroup
   au!
@@ -26,17 +25,8 @@ augroup BehaviourGroup
 augr end
 
 augroup TextGroup
-  au FileType plaintex,tex,txt,vimwiki,latex,markdown :call TextGroupSettings()
+  au FileType plaintex,tex,txt,vimwiki,latex,markdown :call environment#text_group_gettings()
   au FileType latex setlocal foldmethod=indent
+  au FileType markdown setlocal nowrap
 augroup end
 
-function! TextGroupSettings()
-  autocmd CompleteChanged <buffer> call environment#thesaurus()
-  autocmd CmdlineEnter <buffer> setlocal noignorecase | setlocal noinfercase
-  setlocal thesaurus+=~/.config/nvim/spell/openthesaurus.txt
-  setlocal scrolloff=3
-  setlocal ignorecase
-  setlocal infercase
-  setlocal wrap
-  setlocal spell spelllang=en_us,de
-endfunction

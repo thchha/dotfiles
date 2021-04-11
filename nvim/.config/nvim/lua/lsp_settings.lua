@@ -5,7 +5,22 @@ local home = vim.loop.os_homedir()
 local dir = "/programs/lua-language-server"
 local diag = vim.lsp.diagnostic
 
-nvim_lsp.clangd.setup{}
+nvim_lsp.clangd.setup{
+  cmd = { "clangd",
+  "--compile-commands-dir=" .. vim.loop.cwd(),
+  "--all-scopes-completion",
+  "--background-index",
+  "--clang-tidy",
+  "--completion-style=detailed",
+  "--cross-file-rename",
+  "--header-insertion=iwyu",
+  "--limit-results=0",
+  "--suggest-missing-includes",
+  "-j=2",
+  "--log=info",
+  "--pretty",
+  },
+}
 
 local configs = require 'nvim_lsp/configs'
 
@@ -85,20 +100,21 @@ end
 
 nvim_lsp.kotlin_language_server.setup {
 	cmd = { home ..  "/runenv/kotlin-language-server/server/build/install/server/bin/kotlin-language-server" };
+  root_dir = vim.loop.cwd;
 }
 
 nvim_lsp.texlab.setup {
   on_attach = onAttach;
   cmd = { home .. "/programs/texlab/target/release/texlab" };
-  cmd_env = { RUST_BACKTRACE=1 };
+  --cmd_env = { RUST_BACKTRACE='full' };
   filetypes = { "tex", "plaintex", "latex" };
   root_dir = vim.loop.cwd;
   settings = {
     latex = {
       rootDirectory = vim.loop.cwd();
       build = {
-        args = {"-interaction=nonstopmode", "-outdir=" .. vim.loop.cwd() .. "/out", "-pdf", "-pvc", "-synctex=1", "-f", "%f"};
-        onSave = true;
+        executable = "latexmk",
+        args = { "-outdir=./out", "-interaction=nonstopmode", "-synctex=1", "-pdf", "-pv", "%f"};
         outputDirectory = vim.loop.cwd() .. "/out";
       },
       forwardSearch = {
@@ -112,6 +128,40 @@ nvim_lsp.texlab.setup {
       };
     };
   };
+}
+
+--nvim_lsp.jdtls.setup {
+--  cmd = { "java-lsp.sh" };
+--}
+--nvim_lsp.jdtls.setup {
+--  cmd = { "java",
+--  "-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=1044",
+--  "-Declipse.application=org.eclipse.jdt.ls.core.id1",
+--  "-Dosgi.bundles.defaultStartLevel=4",
+--  "-Declipse.product=org.eclipse.jdt.ls.core.product",
+--  "-Dlog.level=ALL",
+--  "-noverify",
+--  "-Xmx1G",
+--  "-jar",
+--  "/home/tomes/programs/eclipse.jdt.ls/org.eclipse.jdt.ls.product/target/repository/plugins/org.eclipse.equinox.launcher_1.6.0.v20200915-1508.jar",
+--  "-configuration",
+--  "/home/tomes/programs/eclipse.jdt.ls/org.eclipse.jdt.ls.product/target/repository/config_linux",
+--  "-data",
+--  "/home/storage/android/sources/",
+--  "-data",
+--  "/home/tomes/workspace/",
+--  "--add-modules=ALL-SYSTEM",
+--  "--add-opens",
+--  "java.base/java.util=ALL-UNNAMED",
+--  "--add-opens",
+--  "java.base/java.lang=ALL-UNNAMED",
+--};
+--}
+
+nvim_lsp.lemminx.setup {
+  cmd = { "java", "-jar", "/home/tomes/programs/lemminx/org.eclipse.lemminx/target/org.eclipse.lemminx-uber.jar" };
+  filetypes = { "xml" };
+  root_dir = vim.loop.cwd;
 }
 
 nvim_lsp.zamba.setup {
