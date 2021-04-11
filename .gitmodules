@@ -8,11 +8,8 @@
 	path = nvim/.local/share/nvim/site/pack/git-plugins/start/dirvish.vim
 	url = https://github.com/justinmk/vim-dirvish.git
 [submodule "nvim/.local/share/nvim/site/pack/git-plugins/start/nvim-lsp"]
-	path = nvim/.local/share/nvim/site/pack/git-plugins/start/nvim-lsp
+	path = nvim/.local/share/nvim/site/pack/git-plugins/opt/nvim-lsp
 	url = https://github.com/neovim/nvim-lspconfig.git
-[submodule "nvim/.local/share/nvim/site/pack/git-plugins/start/vimwiki"]
-	path = nvim/.local/share/nvim/site/pack/git-plugins/start/vimwiki
-	url = https://github.com/vimwiki/vimwiki.git
 [submodule "nvim/.local/share/nvim/site/pack/git-plugins/start/vim-illuminate"]
 	path = nvim/.local/share/nvim/site/pack/git-plugins/start/vim-illuminate
 	url = https://github.com/RRethy/vim-illuminate.git
@@ -32,8 +29,20 @@
 	path = nvim/.local/share/nvim/site/pack/git-plugins/start/vim-android
 	url = https://github.com/hsanson/vim-android.git
 [submodule "nvim/.local/share/nvim/site/pack/git-plugins/start/nvim-dap"]
-	path = nvim/.local/share/nvim/site/pack/git-plugins/start/nvim-dap
+	path = nvim/.local/share/nvim/site/pack/git-plugins/opt/nvim-dap
 	url = https://github.com/mfussenegger/nvim-dap.git
 [submodule "nvim/.local/share/nvim/site/pack/git-plugins/start/perlomni.vim"]
 	path = nvim/.local/share/nvim/site/pack/git-plugins/start/perlomni.vim
 	url = https://github.com/c9s/perlomni.vim.git
+[submodule "nvim/.local/share/nvim/site/pack/git-plugins/start/vim-fugitive"]
+	path = nvim/.local/share/nvim/site/pack/git-plugins/start/vim-fugitive
+	url = https://github.com/tpope/vim-fugitive.git
+[submodule "nvim/.local/share/nvim/site/pack/git-plugins/opt/bracey.vim"]
+	path = nvim/.local/share/nvim/site/pack/git-plugins/opt/bracey.vim
+	url = https://github.com/turbio/bracey.vim
+[submodule "emacs/.emacs.d/icicles"]
+	path = emacs/.emacs.d/icicles
+	url = https://github.com/emacsmirror/icicles.git
+[submodule "emacs/.emacs.d/evil-arglist"]
+	path = emacs/.emacs.d/evil-arglist
+	url = https://github.com/nnicandro/evil-arglist.git

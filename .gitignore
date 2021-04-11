@@ -9,3 +9,11 @@ nvim/.local/share/nvim/session
 nvim/.local/share/nvim/view
 bash/.bash_local
 nvim/.config/nvim/.netrwhist
+emacs/.emacs.d/.cache/*
+emacs/.emacs.d/elpa
+emacs/.emacs.d/places
+emacs/.emacs.d/*~
+emacs/.emacs.d/#*
+emacs/.emacs.d/transient/*
+emacs/.emacs.d/.lsp-session*
+emacs/.emacs.d/auto-save-list
