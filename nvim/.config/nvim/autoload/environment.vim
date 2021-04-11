@@ -20,6 +20,7 @@ function! environment#focus()
     unlet s:focus_buf_nr
   else
     vert abo new
+    setlocal wrap
     setlocal buftype=nofile
     setlocal bufhidden=delete
     setlocal noswapfile
@@ -35,8 +36,23 @@ function! environment#focus()
   endif
 endfunction
 
+function! environment#lsp_diagnostic()
+  setlocal updatetime=200
+  au CursorHold <buffer> lua vim.lsp.diagnostic.show_line_diagnostics()
+endfunction
+
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Text Editing
+
+function! environment#text_group_gettings()
+  autocmd CompleteChanged <buffer> call environment#thesaurus()
+  autocmd CmdlineEnter <buffer> setlocal noignorecase | setlocal noinfercase
+  setlocal thesaurus+=~/.config/nvim/spell/openthesaurus.txt
+  setlocal ignorecase
+  setlocal infercase
+  setlocal wrap
+  setlocal spell spelllang=en_us,de
+endfunction
 
 let g:fallback = -1
 function! environment#thesaurus()
@@ -72,7 +88,6 @@ function! environment#remove_thesaurus_autocmd()
   endif
 endfunction
 
-
 " preserves history; neovim specific
 function! environment#delete_trailing_whitespaces(mod)
   let l:tmp = winsaveview()
@@ -89,16 +104,16 @@ endfunction
 
 function! environment#lsp_mapping()
   nnoremap <buffer> <silent> <c-]> <cmd>lua vim.lsp.buf.definition()<CR>
+  nnoremap <buffer> <silent> 1gd   <cmd>lua vim.lsp.buf.type_definition()<CR>
+  nnoremap <buffer> <silent> gd    <cmd>lua vim.lsp.buf.declaration()<CR>
+  nnoremap <buffer> <silent> <F3>  <cmd>lua vim.lsp.buf.implementation()<CR>
   nnoremap <buffer> <silent> K     <cmd>lua vim.lsp.buf.hover()<CR>
-  nnoremap <buffer> <silent> gD    <cmd>lua vim.lsp.buf.implementation()<CR>
   nnoremap <buffer> <silent> <c-k> <cmd>lua vim.lsp.buf.signature_help()<CR>
-  nnoremap <buffer> <silent> 1gD   <cmd>lua vim.lsp.buf.type_definition()<CR>
   nnoremap <buffer> <silent> gr    <cmd>lua vim.lsp.buf.references()<CR>
   nnoremap <buffer> <silent> g0    <cmd>lua vim.lsp.buf.document_symbol()<CR>
   nnoremap <buffer> <silent> gW    <cmd>lua vim.lsp.buf.workspace_symbol()<CR>
-  nnoremap <buffer> <silent> gd    <cmd>lua vim.lsp.buf.declaration()<CR>
   nnoremap <buffer> <silent> cr    <cmd>lua vim.lsp.buf.rename()<CR>
-	inoremap <buffer> <c-space> <cmd>lua vim.lsp.buf.completion()<CR>
+	inoremap <buffer> <c-space> <cmd>lua vim.lsp.omnifunc()<CR>
 endfunction
 
 " resolve id/class and jump to the source, if declared
@@ -115,14 +130,16 @@ function! environment#css_implementation() abort
 	endif
 endfunction
 
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
-function! environment#lsp_diagnostic()
-  setlocal updatetime=200
-  au CursorHold <buffer> lua vim.lsp.diagnostic.show_line_diagnostics()
+function! environment#remove_hidden_buffers()
+  for buf in getbufinfo({ 'buflisted':1 })
+    if !buf.changed && buf.hidden
+      exe 'bd ' . buf.bufnr
+    endif
+  endfor
 endfunction
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Async
 
 function! environment#async_cmd_completed(job_id, data, event)
   unlet s:channel
@@ -165,6 +182,9 @@ function! environment#async_command(command)
     endif
   endif
 endfunction
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" REPL (TODO)
 
 function! environment#toggle_repl_buffer()
   if !exists('s:repl_command')
