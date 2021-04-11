@@ -4,4 +4,12 @@
 # arg: 2 the file to open
 # arg: 3 the line to jump to
 # arg: 4 the column
-echo '[0,0,"nvim_command", ["e '$2'| call cursor('$3','$4') | call feedkeys(\"V\")"]]' | json2msgpack | nc -q1 localhost $1 | msgpack2json -d
+echo '[0,0,"nvim_command", ' \
+  '["e '$2'|' \
+  'call cursor('$3','$4') |' \
+  'let ToggleSelect={ t -> feedkeys(\"V\") } |' \
+  'call ToggleSelect(0) | ' \
+  'call timer_start(2000, ToggleSelect) "]]' | \
+  json2msgpack | \
+  nc -q1 localhost $1 | \
+  msgpack2json -d
