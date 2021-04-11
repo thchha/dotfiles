@@ -1,33 +1,19 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;  GENERAL  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;
 
-;; refer to lsp-configuration.el
-(get-package 'lsp-mode)
-(get-package 'lsp-ui)
-(get-package 'company)
-(get-package 'company-lsp)
-(get-package 'lsp-latex)
 
-;; refer to visual.el
-(get-package 'ample-theme)
-
+(get-package 'rainbow-mode)
 (get-package 'magit)
 ;(get-package 'vimish-fold) no nested foling?!
 (get-package 'impatient-mode)
 (get-package 'android-mode)
 
-;; prohibit autochanging the working directory
-(add-hook 'find-file-hook
-          (lambda ()
-            (setq default-directory command-line-default-directory)))
+(get-package 'vertico)
+(get-package 'orderless)
+(get-package 'marginalia)
 
-(setq gc-cons-threshold 1000000)
 (setq x-selection-timeout 5)
-
-(add-to-list 'default-frame-alist
-             '(font . "Monospace-12"))
 
 (fset 'yes-or-no-p 'y-or-n-p)
 
@@ -35,10 +21,12 @@
 
 (setq inhibit-splash-screen t)
 
-(setq-default tab-width 2)
+(setq-default tab-width 2
+							evil-shift-width 2)
 (setq-default indent-tabs-mode 0)
 
 (setq-default show-trailing-whitespace t)
+(add-hook 'completion-list-mode-hook (lambda () (setq show-trailing-whitespace nil)))
 
 ;; places all backups/auto-save files to /tmp
 (setq backup-directory-alist
@@ -49,6 +37,7 @@
 (save-place-mode 1)
 
 (add-hook 'prog-mode-hook #'hs-minor-mode) ; enable folding
+(add-hook 'prog-mode-hook #'hs-minor-mode) ; enable folding
 
 (column-number-mode 1)
 (menu-bar-mode 0)
@@ -57,18 +46,53 @@
 (global-display-line-numbers-mode t)
 (show-paren-mode t)
 
-(display-time-mode 1)
 (size-indication-mode 1)
 
-(visual-line-mode t)
+(global-visual-line-mode t)
 
-(setq help-window-select nil)
+(setq help-window-select t)
+
+(vertico-mode t)
+(marginalia-mode t)
+
+(setq marginalia-annotators
+			'(marginalia-annotators-heavy ; files
+				marginalia-annotators-heavy ; ext-cmd
+				marginalia-annotators-light))
+
+(setq orderless-component-separator " +\\|[-/]"
+			orderless-matching-styles '(orderless-regexp))
+
+(setq completion-styles '(substring substring flex orderless)
+			completion-category-defaults nil
+			completion-category-overrides '((file (styles . (partial-completion)))))
 
 (define-key global-map (kbd "C-c") (lambda () (interactive) (abort-recursive-edit) (kbd "C-g")))
-;(define-key global-map (kbd "TAB") nil)
-(global-set-key (kbd "<escape>") 'keyboard-escape-quit)
+
+(defun hardened-escape ()
+	"refocuses the minbuffer, if in use; else it will abort anything and put into normal mode"
+	(interactive)
+	(if (active-minibuffer-window)
+			(progn
+				(select-frame-set-input-focus (window-frame (active-minibuffer-window)))
+				(select-window (active-minibuffer-window)))
+		(progn
+			(abort-recursive-edit)
+			(keyboard-escape-quit)
+			(evil-force-normal-state))))
+
+
+(define-key minibuffer-local-map [escape] 'minibuffer-keyboard-quit)
+(define-key minibuffer-local-ns-map [escape] 'minibuffer-keyboard-quit)
+(define-key minibuffer-local-completion-map [escape] 'minibuffer-keyboard-quit)
+(define-key minibuffer-local-must-match-map [escape] 'minibuffer-keyboard-quit)
+(define-key minibuffer-local-isearch-map [escape] 'minibuffer-keyboard-quit)
+
+
+(global-set-key [escape] 'hardened-escape)
 (global-set-key (kbd "«") 'execute-extended-command)
 
+(global-unset-key (kbd "C-x C-t"))
 (global-unset-key (kbd "C-<down-mouse-1>"))
 (global-unset-key (kbd "C-<down-mouse-2>"))
 (global-unset-key (kbd "C-<down-mouse-3>"))
@@ -78,17 +102,22 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (get-package 'goto-chg)
 
+(setq evil-want-C-d-scroll t)
+(setq evil-want-C-u-scroll t)
 
 (get-package 'evil)
 (get-package 'evil-surround)
+(add-to-list 'load-path "~/.emacs.d/evil-arglist")
+(require 'evil-arglist)
+
+(defun evil-ex-abort ()
+	"Override the default behaviour, so that ex commands survive missclicks")
 
 (global-evil-surround-mode 1)
 
-(setq evil-want-C-d-scroll t)
-(setq evil-want-C-u-scroll t)
 (setq evil-respect-visual-line-mode t)
 
-;(setq evil-undo-system 'undo-redo)
+(evil-set-undo-system 'undo-redo)
 
 (setq evil-want-C-i-jump 1)
 
@@ -102,11 +131,13 @@
               evil-motion-state-modes))
 
 (setq evil-vsplit-window-right 1)
+(setq evil-split-window-below 1)
 
 (setq evil-emacs-state-modes nil)
 (setq evil-motion-state-modes nil)
 
 (evil-mode t)
+(define-key evil-normal-state-map [escape] nil)
 
 (evil-ex-define-cmd "so" #'load-file)
 (evil-ex-define-cmd "W" #'save-buffer)
@@ -121,19 +152,45 @@
 ;;;;;;;;;;;
 
 (defvar vim-leader-map (make-sparse-keymap))
+(define-key evil-emacs-state-map (kbd "\\") vim-leader-map)
 (define-key evil-normal-state-map (kbd "\\") vim-leader-map)
 (define-key evil-visual-state-map (kbd "\\") vim-leader-map)
 (define-key evil-insert-state-map (kbd "TAB") 'tab-to-tab-stop)
 
-(evil-define-key 'normal global-map (kbd "\\ RET") 'evil-buffer)
+(evil-define-key 'insert global-map (kbd "RET") 'newline-and-indent)
 (evil-define-key 'normal global-map (kbd "_") (lambda () (interactive) (dired-jump nil default-directory)))
 
-;; Bufferlist
+(define-key evil-ex-completion-map [tab]
+	(lambda () (interactive)
+		"change into M-x, if no ex was issued in advance."
+		(if (null evil-ex-cmd)
+				(progn
+					(run-with-timer 0 nil (lambda () (execute-extended-command "")))
+					(keyboard-escape-quit))
+				(evil-ex-completion))))
+
+(define-key evil-ex-completion-map [? ]
+	(lambda () (interactive)
+		"When starting an ex-command with a space, change into M-x and
+		 enable matching with whitespaces"
+		(if (null evil-ex-cmd)
+				(progn
+					(run-with-timer 0 nil (lambda () (execute-extended-command "")))
+					(keyboard-escape-quit))
+			(insert " "))))
+
 (evil-define-key 'normal global-map (kbd "SPC SPC")
   (lambda () (interactive)
     (minibuffer-with-setup-hook
         '(lambda () (execute-kbd-macro (kbd "TAB")))
       (call-interactively (evil-ex "buffer ")))))
+
+(define-key vertico-map (kbd "<escape>") 'keyboard-escape-quit)
+(define-key vertico-map (kbd "C-p") 'vertico-previous)
+(define-key vertico-map (kbd "C-n") 'vertico-next)
+(define-key evil-ex-completion-map "\C-p" (lambda () (interactive) (switch-to-completions) (previous-completion)))
+(define-key evil-ex-completion-map "\C-n" (lambda () (interactive) (switch-to-completions) (next-completion)))
+(define-key completion-list-mode-map (kbd "<return>") #'choose-completion)
 
 (evil-define-key 'normal xref--xref-buffer-mode-map (kbd "<return>") 'xref-goto-xref)
 
@@ -197,6 +254,19 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;  LANGUAGES  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;;; THESAURUS
+(load "~/.emacs.d/synonyms")
+;; first escape all commas in the file
+;; then transform the semicolons to commas.
+(setq synonyms-file "~/.emacs.d/openthesaurus.txt")
+(setq synonyms-cache-file  "~/.emacs.d/.cache/synonyms-cache")
+(require 'synonyms)
+
+(defun get-synonym-word ()
+	(interactive)
+	(synonyms-lookup (thing-at-point 'word) nil nil))
+(evil-define-key 'insert global-map (kbd "C-x C-t") 'get-synonym-word)
 
 ;; latex
 (get-package 'pdf-tools)
