@@ -268,6 +268,8 @@ hi! link diffAdded String
 "   diffSubname
 "   diffComment
 
+hi StatusLine guibg=#FF6633
+
 "}}}
 "
 " This is needed for some reason: {{{
